@@ -123,7 +123,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: const SizedBox.shrink(),
+              child: const TestPage(),
               transitionDuration: const Duration(milliseconds: 400),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {

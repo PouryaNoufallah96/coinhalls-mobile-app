@@ -7,6 +7,7 @@ import 'package:coin_hall/core/design_system/theme.dart';
 import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/reown/reown.dart';
 import 'package:coin_hall/injection.dart';
+import 'package:coin_hall/router/test.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

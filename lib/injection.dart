@@ -64,7 +64,8 @@ Widget appInjection(Widget child) {
       RepositoryProvider(
         create: (context) => SocketService(
           authInterceptor: context.read(),
-        )..connect(),
+        )
+        // ..connect(),
       ),
 
       // RepositoryProvider(
