@@ -1,27 +1,39 @@
-import 'package:coin_hall/components/app_button.dart';
 import 'package:flutter/material.dart';
 
-class TestPage extends StatelessWidget {
-  const TestPage({super.key});
+class AppCard extends StatelessWidget {
+  const AppCard({
+    this.child,
+    this.imageSrc,
+    super.key,
+  });
+
+  final String? imageSrc;
+  final Widget? child;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xff534739),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AppButton(
-              onPressed: () {},
-              color: const Color(0xffFFDA95),
-              borderColor: const Color(0xffFFEEB9),
-              textColor: const Color(0xffFFCD4E),
-            )
-          ],
+    return Stack(
+      alignment: Alignment.topCenter,
+      children: [
+        CustomPaint(
+          size: const Size(double.infinity, 143),
+          painter: _LinePainter(),
         ),
-      ),
+        if (imageSrc != null)
+          const Padding(
+            padding: EdgeInsets.all(12),
+            child: SizedBox.square(
+              dimension: 64,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  shape: BoxShape.circle,
+                ),
+              ),
+            ),
+          ),
+        if (child != null) child!
+      ],
     );
   }
 }
