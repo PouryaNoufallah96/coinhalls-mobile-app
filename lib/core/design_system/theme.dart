@@ -9,7 +9,6 @@ class AutoShieldTheme {
     return ThemeData(
       colorScheme: scheme,
       inputDecorationTheme: InputDecorationTheme(
-        filled: true,
         focusedErrorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: BorderSide(color: scheme.error),
@@ -21,19 +20,19 @@ class AutoShieldTheme {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
-            color: Color(0xffE3E3E3),
+            color: Color(0xffFFEEB9),
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
-            color: Color(0xffE3E3E3),
+            color: Color(0xffFFEEB9),
           ),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
           borderSide: const BorderSide(
-            color: Color(0xffE3E3E3),
+            color: Color(0xffFFEEB9),
           ),
         ),
       ),
@@ -57,7 +56,7 @@ class GainXColorScheme {
   );
 
   static final ColorScheme _light = ColorScheme.light(
-    primary: const Color(0xff4024D1),
+    primary: const Color(0xffFFEEB9),
     outlineVariant: GainXColors.grey.shade300,
     error: GainXColors.red,
   );

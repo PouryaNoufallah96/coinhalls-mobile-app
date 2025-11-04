@@ -79,7 +79,7 @@ class _StageEnv extends _Env {
   _StageEnv()
       : super(
           reownProjectId: '6e91607e63e1d699223ba2b0d383634a',
-          apiEndPoint: 'https://autoapi.rzprime.com/api/v1/',
+          apiEndPoint: 'https://api.coinhalls.com/api/v1/',
           clientId: 'app_mainappful',
           clientSecret: 'vxzldacqgvazzxqgwibo',
           publicSignature: 'gsouqbsqaiginijimufycgvduqj',

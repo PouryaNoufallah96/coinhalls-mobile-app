@@ -3,57 +3,68 @@ import 'package:flutter/material.dart';
 class AppButton extends StatelessWidget {
   const AppButton({
     required this.onPressed,
-    required this.color,
-    required this.borderColor,
-    required this.textColor,
+    this.color = const Color(0xffFFDA95),
+    this.borderColor = const Color(0xffFFEEB9),
+    this.textColor = const Color(0xffFFCD4E),
     super.key,
     this.text = 'Submit',
     this.height = 56,
+    this.isLoading = false,
   });
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String text;
   final double height;
   final Color color;
   final Color borderColor;
   final Color textColor;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(8),
-      onTap: onPressed,
-      child: Container(
-        height: height,
-        width: double.infinity,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8),
-          border: GradientBoxBorder(
+    return Opacity(
+      opacity: onPressed == null ? .7 : 1,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        onTap: onPressed,
+        child: Container(
+          height: height,
+          width: double.infinity,
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8),
+            border: GradientBoxBorder(
+              borderRadius: BorderRadius.circular(8),
+              gradient: LinearGradient(
+                colors: [
+                  borderColor.withValues(alpha: .08),
+                  borderColor,
+                  borderColor.withValues(alpha: .08),
+                ],
+              ),
+            ),
             gradient: LinearGradient(
               colors: [
-                borderColor.withValues(alpha: .08),
-                borderColor,
-                borderColor.withValues(alpha: .08),
+                color.withValues(alpha: .25),
+                color.withValues(alpha: 0),
+                color.withValues(alpha: .25),
               ],
             ),
           ),
-          gradient: LinearGradient(
-            colors: [
-              color.withValues(alpha: .25),
-              color.withValues(alpha: 0),
-              color.withValues(alpha: .25),
-            ],
-          ),
-        ),
-        alignment: Alignment.center,
-        child: Text(
-          text,
-          style:  TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            color: textColor,
-          ),
+          alignment: Alignment.center,
+          child: isLoading
+              ? Center(
+                  child: CircularProgressIndicator.adaptive(
+                    valueColor: AlwaysStoppedAnimation(textColor),
+                  ),
+                )
+              : Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: textColor,
+                  ),
+                ),
         ),
       ),
     );

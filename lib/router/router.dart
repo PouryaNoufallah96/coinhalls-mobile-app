@@ -9,7 +9,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
 
   GoRouter get router {
     return GoRouter(
-      initialLocation: '/assets',
+      initialLocation: '/home_page',
       navigatorKey: routerKey,
       refreshListenable: _RouterRefreshStream(
         authStream: context.read<AuthInterceptor>().stream,
@@ -27,7 +27,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
 
         final isLoggingIn = state.uri.path == '/';
 
-        if (isLoggingIn) return token != null ? '/assets' : null;
+        if (isLoggingIn) return token != null ? '/home_page' : null;
 
         return token != null ? null : '/';
       },
@@ -56,7 +56,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                     if (asyncSnapshot.data == null) {
                       return AppScaffold();
                     }
-                    return const SizedBox.shrink();
+                    return NestedPage(child: navigationShell);
                   }),
             );
           },
@@ -75,9 +75,9 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
               navigatorKey: _sectionANavigatorKey,
               routes: [
                 GoRoute(
-                  path: '/assets',
+                  path: '/home_page',
                   builder: (context, state) {
-                    return const SizedBox.shrink();
+                    return const HomePage();
                   },
                   // routes: [
                   //   GoRoute(
@@ -123,7 +123,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
           pageBuilder: (context, state) {
             return CustomTransitionPage(
               key: state.pageKey,
-              child: const TestPage(),
+              child: const AuthScreen(),
               transitionDuration: const Duration(milliseconds: 400),
               transitionsBuilder:
                   (context, animation, secondaryAnimation, child) {

@@ -7,7 +7,9 @@ import 'package:coin_hall/core/design_system/theme.dart';
 import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/reown/reown.dart';
 import 'package:coin_hall/injection.dart';
-import 'package:coin_hall/router/test.dart';
+import 'package:coin_hall/pages/auth/auth.dart';
+import 'package:coin_hall/pages/home_page/home_page.dart';
+import 'package:coin_hall/pages/nested/nested.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -53,41 +55,70 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
   @override
   Widget build(BuildContext context) {
     final appRouter = useMemoized(() => router);
+    final notifier = useMemoized(SplashState.new);
 
-    return BlocSelector<PreferencesBloc, PreferencesState, bool>(
-      selector: (state) => state.isDark,
-      builder: (context, isDark) {
-        return ReownAppKitModalTheme(
-          isDarkMode: isDark,
-          child: ToastificationWrapper(
-            config: const ToastificationConfig(
-              maxToastLimit: 1,
-              maxTitleLines: 4,
+    return SplashStateProvider(
+      notifier: notifier,
+      child: BlocSelector<PreferencesBloc, PreferencesState, bool>(
+        selector: (state) => state.isDark,
+        builder: (context, isDark) {
+          return ReownAppKitModalTheme(
+            isDarkMode: isDark,
+            child: ToastificationWrapper(
+              config: const ToastificationConfig(
+                maxToastLimit: 1,
+                maxTitleLines: 4,
+              ),
+              child: MaterialApp.router(
+                routerConfig: appRouter,
+                title: 'Meta Coin Guard',
+                theme: AutoShieldTheme()(isDark),
+                builder: (context, child) {
+                  return RepositoryProvider(
+                    create: (context) =>
+                        ReownService()..call(routerKey.currentContext!),
+                    child: Builder(builder: (context) {
+                      return BlocProvider(
+                        create: (context) => ReownBloc(
+                          authInterceptor: context.read(),
+                          authService: context.read(),
+                          reownService: context.read(),
+                        )..add(ReownStarted()),
+                        child: child,
+                      );
+                    }),
+                  );
+                },
+              ),
             ),
-            child: MaterialApp.router(
-              routerConfig: appRouter,
-              title: 'Meta Coin Guard',
-              theme: AutoShieldTheme()(isDark),
-              builder: (context, child) {
-                return RepositoryProvider(
-                  create: (context) =>
-                      ReownService()..call(routerKey.currentContext!),
-                  child: Builder(builder: (context) {
-                    return BlocProvider(
-                      create: (context) => ReownBloc(
-                        authInterceptor: context.read(),
-                        authService: context.read(),
-                        reownService: context.read(),
-                      )..add(ReownStarted()),
-                      child: child,
-                    );
-                  }),
-                );
-              },
-            ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
+  }
+}
+
+class SplashState extends ValueNotifier<bool> {
+  SplashState() : super(false);
+
+  void change() {
+    value = true;
+  }
+}
+
+class SplashStateProvider extends InheritedNotifier {
+  const SplashStateProvider({
+    required super.child,
+    required SplashState super.notifier,
+    super.key,
+  });
+
+  static SplashStateProvider? of(BuildContext context) {
+    return context.dependOnInheritedWidgetOfExactType<SplashStateProvider>();
+  }
+
+  @override
+  bool updateShouldNotify(SplashStateProvider oldWidget) {
+    return true;
   }
 }
