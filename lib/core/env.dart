@@ -82,7 +82,7 @@ class _StageEnv extends _Env {
           apiEndPoint: 'https://autoapi.rzprime.com/api/v1/',
           clientId: 'app_mainappful',
           clientSecret: 'vxzldacqgvazzxqgwibo',
-          publicSignature: 'yejmwttyiqiangnrfxuntkrdxvw',
+          publicSignature: 'gsouqbsqaiginijimufycgvduqj',
           inventroyOrderHub: 'wss://api.rzprime.com/hubs/inventory',
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
           appContractAddress: '0xe694d3afFA558BB48c1E3292FBe8ab35a9873906',
