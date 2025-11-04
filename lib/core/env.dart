@@ -81,7 +81,7 @@ class _StageEnv extends _Env {
           reownProjectId: '6e91607e63e1d699223ba2b0d383634a',
           apiEndPoint: 'https://autoapi.rzprime.com/api/v1/',
           clientId: 'app_mainappful',
-          clientSecret: 'jegfariahmanzfrpamel',
+          clientSecret: 'vxzldacqgvazzxqgwibo',
           publicSignature: 'yejmwttyiqiangnrfxuntkrdxvw',
           inventroyOrderHub: 'wss://api.rzprime.com/hubs/inventory',
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
@@ -89,6 +89,6 @@ class _StageEnv extends _Env {
           appContractName: 'TokenForwardSale',
           insuranceAddress: '0x64E4fea6e4F3637025c7Bcd878E2B238B01f7D4e',
           insuranceName: 'insurance',
-          applicationId: 'autoshield.mainapp',
+          applicationId: 'coinhalls.mainapp',
         );
 }
