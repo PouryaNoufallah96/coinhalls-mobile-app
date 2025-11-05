@@ -5,6 +5,7 @@ import 'package:coin_hall/core/blocs/rz_quantity/rz_quantiy_bloc.dart';
 import 'package:coin_hall/core/env.dart';
 import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/auth_service/auth_service.dart';
+import 'package:coin_hall/core/services/game_service/game_service.dart';
 import 'package:coin_hall/core/services/http_service/http_service.dart';
 import 'package:coin_hall/core/services/socket_service/socket_service.dart';
 import 'package:coin_hall/core/services/stats_serivce/stats_serivce.dart';
@@ -62,11 +63,11 @@ Widget appInjection(Widget child) {
         ),
       ),
       RepositoryProvider(
-        create: (context) => SocketService(
-          authInterceptor: context.read(),
-        )
-        // ..connect(),
-      ),
+          create: (context) => SocketService(
+                authInterceptor: context.read(),
+              )
+          // ..connect(),
+          ),
 
       // RepositoryProvider(
       //   create: (context) => OrdersService(
@@ -87,6 +88,12 @@ Widget appInjection(Widget child) {
       ),
       RepositoryProvider(
         create: (context) => StatsService(
+          adapter: context.read(),
+        ),
+        lazy: false,
+      ),
+      RepositoryProvider(
+        create: (context) => GameService(
           adapter: context.read(),
         ),
         lazy: false,

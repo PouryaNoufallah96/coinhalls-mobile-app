@@ -20,14 +20,26 @@ class AppCard extends StatelessWidget {
           painter: _LinePainter(),
         ),
         if (imageSrc != null)
-          const Padding(
-            padding: EdgeInsets.all(12),
+          Padding(
+            padding: const EdgeInsets.all(12),
             child: SizedBox.square(
               dimension: 64,
               child: DecoratedBox(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   color: Colors.black,
                   shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xffFFC65E),
+                      blurRadius: 8,
+                    ),
+                  ],
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Image.asset(
+                    imageSrc!,
+                  ),
                 ),
               ),
             ),

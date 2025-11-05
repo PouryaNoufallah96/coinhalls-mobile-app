@@ -155,8 +155,28 @@ class $AssetsImagesGen {
   /// File path: assets/images/car.png
   AssetGenImage get car => const AssetGenImage('assets/images/car.png');
 
+  /// File path: assets/images/chance_header_text.png
+  AssetGenImage get chanceHeaderText =>
+      const AssetGenImage('assets/images/chance_header_text.png');
+
+  /// File path: assets/images/circle_1.png
+  AssetGenImage get circle1 =>
+      const AssetGenImage('assets/images/circle_1.png');
+
+  /// File path: assets/images/circle_2.png
+  AssetGenImage get circle2 =>
+      const AssetGenImage('assets/images/circle_2.png');
+
+  /// File path: assets/images/coin_hall_font.png
+  AssetGenImage get coinHallFont =>
+      const AssetGenImage('assets/images/coin_hall_font.png');
+
   /// File path: assets/images/czw.png
   AssetGenImage get czw => const AssetGenImage('assets/images/czw.png');
+
+  /// File path: assets/images/door_frame.png
+  AssetGenImage get doorFrame =>
+      const AssetGenImage('assets/images/door_frame.png');
 
   /// File path: assets/images/gold.png
   AssetGenImage get gold => const AssetGenImage('assets/images/gold.png');
@@ -178,6 +198,10 @@ class $AssetsImagesGen {
 
   /// File path: assets/images/logo_text.svg
   SvgGenImage get logoText => const SvgGenImage('assets/images/logo_text.svg');
+
+  /// File path: assets/images/main_shadow.png
+  AssetGenImage get mainShadow =>
+      const AssetGenImage('assets/images/main_shadow.png');
 
   /// File path: assets/images/mgc.png
   AssetGenImage get mgc => const AssetGenImage('assets/images/mgc.png');
@@ -215,6 +239,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/rz.png
   AssetGenImage get rz => const AssetGenImage('assets/images/rz.png');
 
+  /// File path: assets/images/splash_frame.jpg
+  AssetGenImage get splashFrame =>
+      const AssetGenImage('assets/images/splash_frame.jpg');
+
   /// File path: assets/images/trip.png
   AssetGenImage get trip => const AssetGenImage('assets/images/trip.png');
 
@@ -231,13 +259,19 @@ class $AssetsImagesGen {
         appIcon,
         appIconIos,
         car,
+        chanceHeaderText,
+        circle1,
+        circle2,
+        coinHallFont,
         czw,
+        doorFrame,
         gold,
         goldDisable,
         industrial,
         insurance,
         jewelry,
         logoText,
+        mainShadow,
         mgc,
         onBoarding1,
         onBoarding2,
@@ -248,6 +282,7 @@ class $AssetsImagesGen {
         regular,
         regularDisable,
         rz,
+        splashFrame,
         trip,
         x,
         xDisable

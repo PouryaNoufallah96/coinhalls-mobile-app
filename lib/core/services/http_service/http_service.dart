@@ -4,7 +4,18 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:toastification/toastification.dart';
 
-sealed class AppResponse<T> with EquatableMixin {}
+sealed class AppResponse<T> with EquatableMixin {
+  List<D> parsedList<D>(D Function(Map<String, dynamic> json) parser) {
+    return switch (this) {
+      AppSuccessResponse(:final data) =>
+        ((data! as Map<String, dynamic>)['data'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()
+            .map(parser)
+            .toList(),
+      _ => [],
+    };
+  }
+}
 
 class AppSuccessResponse<T> extends AppResponse<T> {
   AppSuccessResponse(this.data);

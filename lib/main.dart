@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:coin_hall/components/app_scaffold.dart';
+import 'package:coin_hall/core/blocs/categories/categories_cubit.dart';
+import 'package:coin_hall/core/blocs/game_list_cubit/game_list_cubit.dart';
 import 'package:coin_hall/core/blocs/preferences_bloc/preferences_bloc.dart';
 import 'package:coin_hall/core/blocs/reown/reown_bloc.dart';
 import 'package:coin_hall/core/design_system/theme.dart';

@@ -39,6 +39,18 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                 BlocProvider.value(
                   value: context.read<ReownBloc>(),
                 ),
+                BlocProvider(
+                  create: (context) {
+                    return GameListCubit(gameService: context.read())..fetch();
+                  },
+                ),
+                BlocProvider(
+                  create: (context) {
+                    return CategoriesCubit(gameService: context.read())
+                      ..fetch();
+                  },
+                ),
+
                 // BlocProvider(
                 //   create: (context) => UserStatsCubit(
                 //     statsService: context.read(),

@@ -1,4 +1,4 @@
-import 'package:coin_hall/components/app_card.dart';
+import 'package:coin_hall/pages/home_page/widgets/game_categories.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -6,20 +6,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
+    return const CustomScrollView(
       slivers: <Widget>[
-        const SliverPadding(padding: EdgeInsetsGeometry.only(top: 48)),
-        const SliverToBoxAdapter(
+        SliverPadding(padding: EdgeInsetsGeometry.only(top: 48)),
+        SliverToBoxAdapter(
           child: _Header(),
         ),
-        SliverList.builder(
-          itemBuilder: (context, index) {
-            return const Padding(
-              padding: EdgeInsets.all(24),
-              child: AppCard(),
-            );
-          },
-        ),
+        GameCategories(),
       ],
     );
   }
