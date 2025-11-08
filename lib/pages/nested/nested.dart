@@ -39,9 +39,9 @@ class _NestedPageState extends State<NestedPage> {
       body: SafeArea(
         child: widget.child,
       ),
-      // bottomNavigationBar: _BottomNav(
-      //   shell: widget.child,
-      // ),
+      bottomNavigationBar: _BottomNav(
+        shell: widget.child,
+      ),
     );
   }
 }
@@ -55,7 +55,7 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return DecoratedBox(
+    DecoratedBox(
       decoration: BoxDecoration(
         color: Colors.white,
         boxShadow: [
@@ -72,8 +72,8 @@ class _BottomNav extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _NavItem(
-            text: 'Guard',
-            src: 'assets/icons/clock.svg',
+            text: 'History',
+            src: 'assets/icons/history.svg',
             withBackground: false,
             onTap: shell.goBranch,
             index: 0,
@@ -96,6 +96,45 @@ class _BottomNav extends StatelessWidget {
             groupIndex: shell.currentIndex,
           ),
         ],
+      ),
+    );
+
+    return CustomPaint(
+      painter: _BottomNavPainter(),
+      size: const Size.fromHeight(112),
+      child: SizedBox(
+        height: 112,
+        child: Stack(
+          children: [
+            const Align(
+              alignment: Alignment.topCenter,
+              child: Text('data'),
+            ),
+            Row(
+              spacing: 32,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _NavItem(
+                  text: 'History',
+                  src: 'assets/icons/history.svg',
+                  withBackground: false,
+                  onTap: shell.goBranch,
+                  index: 0,
+                  groupIndex: shell.currentIndex,
+                ),
+                const SizedBox.square(dimension: 46),
+                _NavItem(
+                  text: 'Setting',
+                  src: 'assets/icons/settings.svg',
+                  withBackground: false,
+                  onTap: shell.goBranch,
+                  index: 2,
+                  groupIndex: shell.currentIndex,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -151,8 +190,9 @@ class _NavItem extends StatelessWidget {
                   width: 24,
                   colorFilter: index == groupIndex && !withBackground
                       ? const ColorFilter.mode(
-                          Color(0xffB6A2FF), BlendMode.srcIn)
-                      : null,
+                          Color(0xffFFCD4E), BlendMode.srcIn)
+                      : const ColorFilter.mode(
+                          Color(0xffFFEEB9), BlendMode.srcIn),
                 ),
               if (text != null)
                 Text(
@@ -170,4 +210,43 @@ class _NavItem extends StatelessWidget {
       ),
     );
   }
+}
+
+class _BottomNavPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(size.width * .33, 0)
+      ..arcToPoint(Offset(size.width * .67, 0),
+          radius: const Radius.circular(68))
+      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height);
+
+    final shadowPath = Path()
+      ..moveTo(0, -6)
+      ..lineTo(size.width * .33, -6)
+      ..arcToPoint(Offset(size.width * .67, -6),
+          radius: const Radius.circular(68))
+      ..lineTo(size.width, -6)
+      ..lineTo(size.width, size.height)
+      ..lineTo(0, size.height);
+
+    canvas
+      ..drawShadow(
+          shadowPath, const Color(0xffFFC65E).withValues(alpha: .6), 4, true)
+      ..drawPath(
+        path,
+        Paint()
+          ..color = const Color(0xff201C17)
+          ..style = PaintingStyle.fill,
+      );
+  }
+
+  @override
+  bool shouldRepaint(_BottomNavPainter oldDelegate) => false;
+
+  @override
+  bool shouldRebuildSemantics(_BottomNavPainter oldDelegate) => false;
 }

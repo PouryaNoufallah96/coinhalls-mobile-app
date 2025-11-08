@@ -44,7 +44,7 @@ class AppCard extends StatelessWidget {
               ),
             ),
           ),
-        if (child != null) child!
+        if (child != null) Positioned.fill(child: child!)
       ],
     );
   }
