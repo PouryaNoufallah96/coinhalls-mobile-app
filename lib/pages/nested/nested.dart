@@ -37,10 +37,19 @@ class _NestedPageState extends State<NestedPage> {
 
     return AppScaffold(
       body: SafeArea(
-        child: widget.child,
-      ),
-      bottomNavigationBar: _BottomNav(
-        shell: widget.child,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: widget.child,
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: _BottomNav(
+                shell: widget.child,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -101,37 +110,75 @@ class _BottomNav extends StatelessWidget {
 
     return CustomPaint(
       painter: _BottomNavPainter(),
-      size: const Size.fromHeight(112),
+      size: const Size.fromHeight(116),
       child: SizedBox(
-        height: 112,
+        height: 116,
         child: Stack(
           children: [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text('data'),
+            GestureDetector(
+              onTap: () => shell.goBranch(1),
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Column(
+                  spacing: 12,
+                  children: [
+                    DecoratedBox(
+                      decoration: BoxDecoration(
+                        gradient: RadialGradient(
+                          colors: [
+                            const Color(0xff01FFF8).withValues(alpha: .15),
+                            const Color(0xff01FFF8).withValues(alpha: .05),
+                          ],
+                        ),
+                        shape: BoxShape.circle,
+                        border: BoxBorder.all(
+                          color: const Color(0xff01FFF8),
+                        ),
+                      ),
+                      child: const Padding(
+                        padding: EdgeInsets.all(10),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Color(0xff01FFF8),
+                          size: 32,
+                        ),
+                      ),
+                    ),
+                    const Text(
+                      'Start',
+                      style: TextStyle(
+                        color: Color(0xff34BEBA),
+                      ),
+                    )
+                  ],
+                ),
+              ),
             ),
-            Row(
-              spacing: 32,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                _NavItem(
-                  text: 'History',
-                  src: 'assets/icons/history.svg',
-                  withBackground: false,
-                  onTap: shell.goBranch,
-                  index: 0,
-                  groupIndex: shell.currentIndex,
-                ),
-                const SizedBox.square(dimension: 46),
-                _NavItem(
-                  text: 'Setting',
-                  src: 'assets/icons/settings.svg',
-                  withBackground: false,
-                  onTap: shell.goBranch,
-                  index: 2,
-                  groupIndex: shell.currentIndex,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.only(top: 32),
+              child: Row(
+                spacing: 32,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  _NavItem(
+                    text: 'History',
+                    src: 'assets/icons/history.svg',
+                    withBackground: false,
+                    onTap: shell.goBranch,
+                    index: 0,
+                    groupIndex: shell.currentIndex,
+                  ),
+                  const SizedBox.square(dimension: 46),
+                  _NavItem(
+                    text: 'Setting',
+                    src: 'assets/icons/settings.svg',
+                    withBackground: false,
+                    onTap: shell.goBranch,
+                    index: 2,
+                    groupIndex: shell.currentIndex,
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -197,11 +244,13 @@ class _NavItem extends StatelessWidget {
               if (text != null)
                 Text(
                   text!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontFamily: 'CentraNo1-Medium',
                     fontSize: 12,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff71717A),
+                    color: index == groupIndex
+                        ? const Color(0xffFFCD4E)
+                        : const Color(0xffFFEEB9),
                   ),
                 ),
             ],
@@ -216,20 +265,20 @@ class _BottomNavPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(size.width * .33, 0)
-      ..arcToPoint(Offset(size.width * .67, 0),
+      ..moveTo(0, size.height * .3)
+      ..lineTo(size.width * .33, size.height * .3)
+      ..arcToPoint(Offset(size.width * .67, size.height * .3),
           radius: const Radius.circular(68))
-      ..lineTo(size.width, 0)
+      ..lineTo(size.width, size.height * .3)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);
 
     final shadowPath = Path()
-      ..moveTo(0, -6)
-      ..lineTo(size.width * .33, -6)
-      ..arcToPoint(Offset(size.width * .67, -6),
+      ..moveTo(0, size.height * .3 - 6)
+      ..lineTo(size.width * .33, size.height * .3 - 6)
+      ..arcToPoint(Offset(size.width * .67, size.height * .3 - 6),
           radius: const Radius.circular(68))
-      ..lineTo(size.width, -6)
+      ..lineTo(size.width, size.height * .3 - 6)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);
 

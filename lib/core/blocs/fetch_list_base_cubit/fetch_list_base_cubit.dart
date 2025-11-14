@@ -11,11 +11,47 @@ abstract class FetchListBaseCubit<T> extends Cubit<FetchListBaseState<T>> {
 
     try {
       final data = await fetcher();
-      emit(FetchListBaseSuccess(data: data));
+      emit(FetchListBaseSuccess(
+        data: data.data,
+        totalCount: data.totalCount,
+        page: 1,
+      ));
     } catch (e) {
       emit(FetchListBaseFailure());
     }
   }
 
-  Future<List<T>> fetcher();
+  Future<FetchListReponse<T>> fetcher();
+}
+
+mixin FetchMoreList<T> on FetchListBaseCubit<T> {
+  Future<List<T>> moreFetcher(int page);
+
+  Future<void> fetchMore() async {
+    if (state is! FetchListBaseSuccess<T>) {
+      return;
+    }
+
+    final current = state as FetchListBaseSuccess<T>;
+
+    if (current.totalCount == null ||
+        current.totalCount == current.data.length) {
+      return;
+    }
+
+    emit(current.copyWith(isFetchingMore: true));
+
+    final data = await moreFetcher(current.page + 1);
+
+    emit(
+      current.copyWith(
+        page: current.page + 1,
+        isFetchingMore: false,
+        data: [
+          ...current.data,
+          ...data,
+        ],
+      ),
+    );
+  }
 }

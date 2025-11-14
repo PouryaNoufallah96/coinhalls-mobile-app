@@ -101,6 +101,10 @@ class $AssetsIconsGen {
   SvgGenImage get arrowUpRightSvg =>
       const SvgGenImage('assets/icons/arrow-up-right.svg');
 
+  /// File path: assets/icons/arrow-up-right2.svg
+  SvgGenImage get arrowUpRight2 =>
+      const SvgGenImage('assets/icons/arrow-up-right2.svg');
+
   /// File path: assets/icons/arrow_down.svg
   SvgGenImage get arrowDown => const SvgGenImage('assets/icons/arrow_down.svg');
 
@@ -110,6 +114,12 @@ class $AssetsIconsGen {
 
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
+
+  /// File path: assets/icons/history.svg
+  SvgGenImage get history => const SvgGenImage('assets/icons/history.svg');
+
+  /// File path: assets/icons/play_btn.png
+  AssetGenImage get playBtn => const AssetGenImage('assets/icons/play_btn.png');
 
   /// File path: assets/icons/qr_code.svg
   SvgGenImage get qrCode => const SvgGenImage('assets/icons/qr_code.svg');
@@ -128,9 +138,12 @@ class $AssetsIconsGen {
         arrowDownLeft,
         arrowUpRightPng,
         arrowUpRightSvg,
+        arrowUpRight2,
         arrowDown,
         arrowReload,
         clock,
+        history,
+        playBtn,
         qrCode,
         settings,
         tetherPng,

@@ -10,5 +10,11 @@ class CategoriesCubit extends FetchListBaseCubit<GameCategory> {
   final GameService _gameService;
 
   @override
-  Future<List<GameCategory>> fetcher() => _gameService.getCategories();
+  Future<FetchListReponse<GameCategory>> fetcher() async {
+    final data = await _gameService.getCategories();
+
+    return FetchListReponse(
+      data: data,
+    );
+  }
 }

@@ -10,6 +10,7 @@ import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/reown/reown.dart';
 import 'package:coin_hall/injection.dart';
 import 'package:coin_hall/pages/auth/auth.dart';
+import 'package:coin_hall/pages/history/history/history.dart';
 import 'package:coin_hall/pages/home_page/home_page.dart';
 import 'package:coin_hall/pages/nested/nested.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +74,7 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
               ),
               child: MaterialApp.router(
                 routerConfig: appRouter,
-                title: 'Meta Coin Guard',
+                title: 'Coin Halls',
                 theme: AutoShieldTheme()(isDark),
                 builder: (context, child) {
                   return RepositoryProvider(

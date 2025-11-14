@@ -78,7 +78,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                 GoRoute(
                   path: '/history',
                   builder: (context, state) {
-                    return const SizedBox.shrink();
+                    return const HistoryPage();
                   },
                 ),
               ],
