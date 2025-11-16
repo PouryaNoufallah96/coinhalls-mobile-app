@@ -65,12 +65,14 @@ class _LinePainter extends CustomPainter {
     final bgPainter = Paint()
       ..color = const Color(0xffFFDA95).withValues(alpha: .08);
 
+    final r = size.width * .155;
+
     final path = Path()
       ..moveTo(0, 24)
       ..lineTo(size.width * .33, 24)
       ..arcToPoint(
         Offset(size.width * .67, 24),
-        radius: const Radius.circular(58),
+        radius: Radius.circular(r + 10),
       )
       ..lineTo(size.width, 24);
 
@@ -79,7 +81,7 @@ class _LinePainter extends CustomPainter {
       ..lineTo(size.width * .35, 36)
       ..arcToPoint(
         Offset(size.width * .65, 36),
-        radius: const Radius.circular(50),
+        radius: Radius.circular(r),
       )
       ..lineTo(size.width - 12, 36)
       ..arcToPoint(Offset(size.width, 48), radius: const Radius.circular(12))

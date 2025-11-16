@@ -252,11 +252,12 @@ class _NavItem extends StatelessWidget {
 class _BottomNavPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    final r = size.width * .14;
     final path = Path()
       ..moveTo(0, size.height * .3)
       ..lineTo(size.width * .37, size.height * .3)
       ..arcToPoint(Offset(size.width * .63, size.height * .3),
-          radius: const Radius.circular(50))
+          radius: Radius.circular(r))
       ..lineTo(size.width, size.height * .3)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);
@@ -265,7 +266,7 @@ class _BottomNavPainter extends CustomPainter {
       ..moveTo(0, size.height * .3 - 6)
       ..lineTo(size.width * .37, size.height * .3 - 6)
       ..arcToPoint(Offset(size.width * .63, size.height * .3 - 6),
-          radius: const Radius.circular(50))
+          radius: Radius.circular(r))
       ..lineTo(size.width, size.height * .3 - 6)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);

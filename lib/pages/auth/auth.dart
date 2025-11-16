@@ -14,7 +14,7 @@ class AuthScreen extends HookWidget {
     useSplashSreen();
 
     return AppScaffold(
-      resizeToAvoidBottomInset: true,
+      resizeToAvoidBottomInset: false,
       body: Stack(
         children: [
           Positioned.fill(
@@ -77,6 +77,7 @@ class _Body extends HookWidget {
           const SizedBox(height: 32),
           const Text(
             'Where fortune favors the bold',
+            textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
             ),
@@ -92,19 +93,23 @@ class _Body extends HookWidget {
                   color: Color(0xffFFEEB9),
                 ),
               ),
-              TextFormField(
-                onChanged: (value) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    message.value = value;
-                  });
-                },
-                style: const TextStyle(
-                  color: Colors.white,
-                ),
-                decoration: const InputDecoration(
-                  hintText: 'Wallet Address',
-                  hintStyle: TextStyle(
-                    color: Color(0xffA5A4A2),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.viewInsetsOf(context).bottom * .5),
+                child: TextFormField(
+                  onChanged: (value) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      message.value = value;
+                    });
+                  },
+                  style: const TextStyle(
+                    color: Colors.white,
+                  ),
+                  decoration: const InputDecoration(
+                    hintText: 'Wallet Address',
+                    hintStyle: TextStyle(
+                      color: Color(0xffA5A4A2),
+                    ),
                   ),
                 ),
               ),
