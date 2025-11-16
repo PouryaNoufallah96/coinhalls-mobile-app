@@ -87,13 +87,13 @@ class ReownService {
     ]);
 
     const metadata = PairingMetadata(
-      name: 'Meta Coin Guard',
-      description: 'Meta Coin Guard',
-      url: 'https://metacoinguard.com',
-      icons: ['https://metacoinguard.com/icon.png'],
+      name: 'Coin Halls',
+      description: 'Coin Halls',
+      url: 'https://app.coinhalls.com',
+      icons: ['https://app.coinhalls.com/icon.png'],
       redirect: Redirect(
-        native: 'metacoinguard://',
-        universal: 'https://metacoinguard.com/modal',
+        native: 'coinhalls://',
+        universal: 'https://coinhalls.com/modal',
         linkMode: true,
       ),
     );

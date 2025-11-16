@@ -9,8 +9,9 @@ class StatsService {
   final HttpService _adapter;
 
   Future<UserStats?> fetch() async {
-    final res = await _adapter
-        .requestUri<Map<String, dynamic>>(Uri.parse('User/GetUserStats'));
+    final res = await _adapter.requestUri<Map<String, dynamic>>(
+        Uri.parse('User/GetUserStats'),
+        withToast: false);
 
     return switch (res) {
       AppSuccessResponse(:final data) =>

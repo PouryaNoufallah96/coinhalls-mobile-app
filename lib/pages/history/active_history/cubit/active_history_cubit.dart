@@ -6,13 +6,15 @@ class ActiveHistoryCubit extends FetchListBaseCubit<PredictionHistory>
     with FetchMoreList {
   ActiveHistoryCubit({
     required this.predictionService,
+    required this.symbol,
   });
 
   final PredictionService predictionService;
+  final String? symbol;
 
   @override
   Future<FetchListReponse<PredictionHistory>> fetcher() async {
-    final items = await predictionService.getActivePredict(1);
+    final items = await predictionService.getActivePredict(1, symbol);
 
     return FetchListReponse(
       data: items.$1,
@@ -22,6 +24,6 @@ class ActiveHistoryCubit extends FetchListBaseCubit<PredictionHistory>
 
   @override
   Future<List<PredictionHistory>> moreFetcher(int page) async {
-    return (await predictionService.getActivePredict(page)).$1;
+    return (await predictionService.getActivePredict(page, symbol)).$1;
   }
 }

@@ -13,8 +13,12 @@ class AppContractAbi {
     return contract;
   }
 
-  static ContractFunction get insureTokenFunction {
-    return appContract.function('insureToken');
+  static ContractFunction get batchSubmitGuesses {
+    return appContract.function('batchSubmitGuesses');
+  }
+
+  static ContractFunction get batchUpdateGuess {
+    return appContract.function('batchUpdateGuess');
   }
 
   static DeployedContract get insuranceContract {
@@ -32,579 +36,185 @@ class AppContractAbi {
 
   static final List<Map<String, Object>> _appAbi = [
     {
+      'type': 'function',
+      'name': 'batchSubmitGuesses',
       'inputs': [
-        {'internalType': 'address', 'name': 'initialOwner', 'type': 'address'},
-        {'internalType': 'address', 'name': 'operatorAddr', 'type': 'address'},
+        {'name': 'gameId', 'type': 'bytes32', 'internalType': 'bytes32'},
         {
-          'internalType': 'address',
-          'name': 'insuranceTokenAddr',
-          'type': 'address'
-        },
-        {'internalType': 'address', 'name': 'rzusdAddr', 'type': 'address'},
-        {'internalType': 'address', 'name': 'priceFeedAddr', 'type': 'address'},
-        {'internalType': 'address', 'name': 'treasuryAddr', 'type': 'address'}
-      ],
-      'stateMutability': 'nonpayable',
-      'type': 'constructor'
-    },
-    {'inputs': [], 'name': 'ECDSAInvalidSignature', 'type': 'error'},
-    {
-      'inputs': [
-        {'internalType': 'uint256', 'name': 'length', 'type': 'uint256'}
-      ],
-      'name': 'ECDSAInvalidSignatureLength',
-      'type': 'error'
-    },
-    {
-      'inputs': [
-        {'internalType': 'bytes32', 'name': 's', 'type': 'bytes32'}
-      ],
-      'name': 'ECDSAInvalidSignatureS',
-      'type': 'error'
-    },
-    {'inputs': [], 'name': 'EnforcedPause', 'type': 'error'},
-    {'inputs': [], 'name': 'ExpectedPause', 'type': 'error'},
-    {'inputs': [], 'name': 'InsufficientBalance', 'type': 'error'},
-    {'inputs': [], 'name': 'InsuranceAlreadyExists', 'type': 'error'},
-    {'inputs': [], 'name': 'InsuranceNotEnded', 'type': 'error'},
-    {'inputs': [], 'name': 'InvalidDates', 'type': 'error'},
-    {'inputs': [], 'name': 'InvalidShortString', 'type': 'error'},
-    {'inputs': [], 'name': 'NoExcessBalance', 'type': 'error'},
-    {'inputs': [], 'name': 'NotActiveInsurance', 'type': 'error'},
-    {'inputs': [], 'name': 'OnlyOperator', 'type': 'error'},
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'owner', 'type': 'address'}
-      ],
-      'name': 'OwnableInvalidOwner',
-      'type': 'error'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'account', 'type': 'address'}
-      ],
-      'name': 'OwnableUnauthorizedAccount',
-      'type': 'error'
-    },
-    {'inputs': [], 'name': 'PriceOverflow', 'type': 'error'},
-    {'inputs': [], 'name': 'ReentrancyGuardReentrantCall', 'type': 'error'},
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'token', 'type': 'address'}
-      ],
-      'name': 'SafeERC20FailedOperation',
-      'type': 'error'
-    },
-    {'inputs': [], 'name': 'SignatureExpired', 'type': 'error'},
-    {
-      'inputs': [
-        {'internalType': 'string', 'name': 'str', 'type': 'string'}
-      ],
-      'name': 'StringTooLong',
-      'type': 'error'
-    },
-    {'inputs': [], 'name': 'Unauthorized', 'type': 'error'},
-    {'inputs': [], 'name': 'UserHasEnoughBalance', 'type': 'error'},
-    {'inputs': [], 'name': 'ZeroAddress', 'type': 'error'},
-    {'inputs': [], 'name': 'ZeroCoverageAmount', 'type': 'error'},
-    {'inputs': [], 'name': 'ZeroInsuredToken', 'type': 'error'},
-    {
-      'anonymous': false,
-      'inputs': [],
-      'name': 'EIP712DomainChanged',
-      'type': 'event'
-    },
-    {
-      'anonymous': false,
-      'inputs': [
-        {
-          'indexed': false,
-          'internalType': 'bytes32',
-          'name': 'insuranceId',
-          'type': 'bytes32'
-        },
-        {
-          'indexed': false,
-          'internalType': 'address',
-          'name': 'user',
-          'type': 'address'
+          'name': 'predictedPrices',
+          'type': 'uint256[]',
+          'internalType': 'uint256[]'
         }
       ],
-      'name': 'InsuranceCancelled',
-      'type': 'event'
+      'outputs': [],
+      'stateMutability': 'nonpayable'
     },
     {
-      'anonymous': false,
+      'type': 'function',
+      'name': 'batchUpdateGuess',
+      'inputs': [
+        {'name': 'guessIds', 'type': 'bytes32[]', 'internalType': 'bytes32[]'},
+        {
+          'name': 'newPredictedPrices',
+          'type': 'uint256[]',
+          'internalType': 'uint256[]'
+        }
+      ],
+      'outputs': [],
+      'stateMutability': 'nonpayable'
+    },
+    {
+      'type': 'function',
+      'name': 'defineGame',
+      'inputs': [
+        {'name': 'gameId', 'type': 'bytes32', 'internalType': 'bytes32'},
+        {'name': 'tokenAddress', 'type': 'address', 'internalType': 'address'},
+        {
+          'name': 'targetPrizeInUsd',
+          'type': 'uint256',
+          'internalType': 'uint256'
+        },
+        {'name': 'startTime', 'type': 'uint64', 'internalType': 'uint64'},
+        {'name': 'endTime', 'type': 'uint64', 'internalType': 'uint64'}
+      ],
+      'outputs': [],
+      'stateMutability': 'nonpayable'
+    },
+    {
+      'type': 'function',
+      'name': 'submitGuess',
+      'inputs': [
+        {'name': 'gameId', 'type': 'bytes32', 'internalType': 'bytes32'},
+        {'name': 'predictedPrice', 'type': 'uint256', 'internalType': 'uint256'}
+      ],
+      'outputs': [],
+      'stateMutability': 'nonpayable'
+    },
+    {
+      'type': 'event',
+      'name': 'GameDefined',
       'inputs': [
         {
+          'name': 'gameId',
+          'type': 'bytes32',
           'indexed': false,
-          'internalType': 'bytes32',
-          'name': 'insuranceId',
-          'type': 'bytes32'
+          'internalType': 'bytes32'
         },
         {
+          'name': 'startTime',
+          'type': 'uint256',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'user',
-          'type': 'address'
+          'internalType': 'uint256'
         },
         {
+          'name': 'endTime',
+          'type': 'uint256',
           'indexed': false,
-          'internalType': 'uint256',
-          'name': 'settlementAmount',
-          'type': 'uint256'
+          'internalType': 'uint256'
+        }
+      ],
+      'anonymous': false
+    },
+    {
+      'type': 'event',
+      'name': 'GameFinalized',
+      'inputs': [
+        {
+          'name': 'gameId',
+          'type': 'bytes32',
+          'indexed': false,
+          'internalType': 'bytes32'
         },
         {
-          'indexed': false,
-          'internalType': 'uint256',
           'name': 'finalPrice',
-          'type': 'uint256'
+          'type': 'uint256',
+          'indexed': false,
+          'internalType': 'uint256'
         },
         {
+          'name': 'bestGuessId',
+          'type': 'bytes32',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'payoutToken',
-          'type': 'address'
-        },
-        {
-          'indexed': false,
-          'internalType': 'uint256',
-          'name': 'payoutAmount',
-          'type': 'uint256'
+          'internalType': 'bytes32'
         }
       ],
-      'name': 'InsuranceFinalized',
-      'type': 'event'
+      'anonymous': false
     },
     {
-      'anonymous': false,
+      'type': 'event',
+      'name': 'GuessSubmitted',
       'inputs': [
         {
+          'name': 'gameId',
+          'type': 'bytes32',
           'indexed': false,
-          'internalType': 'bytes32',
-          'name': 'insuranceId',
-          'type': 'bytes32'
+          'internalType': 'bytes32'
         },
         {
+          'name': 'guessId',
+          'type': 'bytes32',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'user',
-          'type': 'address'
+          'internalType': 'bytes32'
         },
         {
+          'name': 'player',
+          'type': 'address',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'insuredToken',
-          'type': 'address'
+          'internalType': 'address'
         },
         {
+          'name': 'predictedPrice',
+          'type': 'uint256',
           'indexed': false,
-          'internalType': 'uint256',
-          'name': 'coverageAmount',
-          'type': 'uint256'
-        }
-      ],
-      'name': 'InsuranceRegistered',
-      'type': 'event'
-    },
-    {
-      'anonymous': false,
-      'inputs': [
-        {
-          'indexed': true,
-          'internalType': 'address',
-          'name': 'previousOwner',
-          'type': 'address'
+          'internalType': 'uint256'
         },
         {
-          'indexed': true,
-          'internalType': 'address',
-          'name': 'newOwner',
-          'type': 'address'
-        }
-      ],
-      'name': 'OwnershipTransferred',
-      'type': 'event'
-    },
-    {
-      'anonymous': false,
-      'inputs': [
-        {
+          'name': 'amountPaid',
+          'type': 'uint256',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'account',
-          'type': 'address'
+          'internalType': 'uint256'
         }
       ],
-      'name': 'Paused',
-      'type': 'event'
+      'anonymous': false
     },
     {
-      'anonymous': false,
+      'type': 'event',
+      'name': 'GuessUpdated',
       'inputs': [
         {
+          'name': 'guessId',
+          'type': 'bytes32',
           'indexed': false,
-          'internalType': 'address',
-          'name': 'account',
-          'type': 'address'
+          'internalType': 'bytes32'
+        },
+        {
+          'name': 'player',
+          'type': 'address',
+          'indexed': false,
+          'internalType': 'address'
+        },
+        {
+          'name': 'newPredictedPrice',
+          'type': 'uint256',
+          'indexed': false,
+          'internalType': 'uint256'
         }
       ],
-      'name': 'Unpaused',
-      'type': 'event'
-    },
-    {
-      'inputs': [],
-      'name': 'REGISTER_INSURANCE_TYPEHASH',
-      'outputs': [
-        {'internalType': 'bytes32', 'name': '', 'type': 'bytes32'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {
-          'internalType': 'bytes32[]',
-          'name': 'insuranceIds',
-          'type': 'bytes32[]'
-        }
-      ],
-      'name': 'batchLiquidateInsurances',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'eip712Domain',
-      'outputs': [
-        {'internalType': 'bytes1', 'name': 'fields', 'type': 'bytes1'},
-        {'internalType': 'string', 'name': 'name', 'type': 'string'},
-        {'internalType': 'string', 'name': 'version', 'type': 'string'},
-        {'internalType': 'uint256', 'name': 'chainId', 'type': 'uint256'},
-        {
-          'internalType': 'address',
-          'name': 'verifyingContract',
-          'type': 'address'
-        },
-        {'internalType': 'bytes32', 'name': 'salt', 'type': 'bytes32'},
-        {'internalType': 'uint256[]', 'name': 'extensions', 'type': 'uint256[]'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'bytes32', 'name': 'insuranceId', 'type': 'bytes32'}
-      ],
-      'name': 'finalizeInsurance',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'bytes32', 'name': 'insuranceId', 'type': 'bytes32'}
-      ],
-      'name': 'getInsurance',
-      'outputs': [
-        {
-          'components': [
-            {
-              'internalType': 'uint128',
-              'name': 'payoutAmount',
-              'type': 'uint128'
-            },
-            {
-              'internalType': 'uint128',
-              'name': 'payoutAmountInUsd',
-              'type': 'uint128'
-            },
-            {
-              'internalType': 'uint256',
-              'name': 'coverageAmount',
-              'type': 'uint256'
-            },
-            {'internalType': 'uint64', 'name': 'initalPrice', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'finalPrice', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'startDate', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'endDate', 'type': 'uint64'},
-            {
-              'internalType': 'address',
-              'name': 'insuredToken',
-              'type': 'address'
-            },
-            {'internalType': 'address', 'name': 'user', 'type': 'address'},
-            {
-              'internalType': 'enum ShieldStorage.InsuranceType',
-              'name': 'insuranceType',
-              'type': 'uint8'
-            },
-            {
-              'internalType': 'enum ShieldStorage.InsuranceStatus',
-              'name': 'status',
-              'type': 'uint8'
-            }
-          ],
-          'internalType': 'struct ShieldStorage.Insurance',
-          'name': '',
-          'type': 'tuple'
-        }
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'insurancePaymentToken',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'bytes32', 'name': '', 'type': 'bytes32'}
-      ],
-      'name': 'insurances',
-      'outputs': [
-        {'internalType': 'uint128', 'name': 'payoutAmount', 'type': 'uint128'},
-        {
-          'internalType': 'uint128',
-          'name': 'payoutAmountInUsd',
-          'type': 'uint128'
-        },
-        {
-          'internalType': 'uint256',
-          'name': 'coverageAmount',
-          'type': 'uint256'
-        },
-        {'internalType': 'uint64', 'name': 'initalPrice', 'type': 'uint64'},
-        {'internalType': 'uint64', 'name': 'finalPrice', 'type': 'uint64'},
-        {'internalType': 'uint64', 'name': 'startDate', 'type': 'uint64'},
-        {'internalType': 'uint64', 'name': 'endDate', 'type': 'uint64'},
-        {'internalType': 'address', 'name': 'insuredToken', 'type': 'address'},
-        {'internalType': 'address', 'name': 'user', 'type': 'address'},
-        {
-          'internalType': 'enum ShieldStorage.InsuranceType',
-          'name': 'insuranceType',
-          'type': 'uint8'
-        },
-        {
-          'internalType': 'enum ShieldStorage.InsuranceStatus',
-          'name': 'status',
-          'type': 'uint8'
-        }
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {
-          'components': [
-            {
-              'internalType': 'uint128',
-              'name': 'payoutAmount',
-              'type': 'uint128'
-            },
-            {
-              'internalType': 'uint128',
-              'name': 'payoutAmountInUsd',
-              'type': 'uint128'
-            },
-            {
-              'internalType': 'uint256',
-              'name': 'coverageAmount',
-              'type': 'uint256'
-            },
-            {'internalType': 'uint64', 'name': 'startDate', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'endDate', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'initalPrice', 'type': 'uint64'},
-            {'internalType': 'uint64', 'name': 'sigDeadline', 'type': 'uint64'},
-            {
-              'internalType': 'address',
-              'name': 'insuredToken',
-              'type': 'address'
-            },
-            {'internalType': 'address', 'name': 'user', 'type': 'address'},
-            {
-              'internalType': 'enum ShieldStorage.InsuranceType',
-              'name': 'insuranceType',
-              'type': 'uint8'
-            }
-          ],
-          'internalType': 'struct ShieldStorage.RegisterInsuranceParams',
-          'name': 'params',
-          'type': 'tuple'
-        },
-        {'internalType': 'bytes', 'name': 'signature', 'type': 'bytes'}
-      ],
-      'name': 'insureToken',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'bytes32', 'name': 'insuranceId', 'type': 'bytes32'}
-      ],
-      'name': 'liquidateInsurance',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'user', 'type': 'address'}
-      ],
-      'name': 'nonces',
-      'outputs': [
-        {'internalType': 'uint256', 'name': 'nonce', 'type': 'uint256'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'operator',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'owner',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'pause',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'paused',
-      'outputs': [
-        {'internalType': 'bool', 'name': '', 'type': 'bool'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'priceFeed',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'token', 'type': 'address'},
-        {'internalType': 'uint256', 'name': 'amount', 'type': 'uint256'}
-      ],
-      'name': 'refundAdmin',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'renounceOwnership',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'rzusdToken',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': '_newOperator', 'type': 'address'}
-      ],
-      'name': 'setOperator',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'priceFeedAddr', 'type': 'address'}
-      ],
-      'name': 'setPriceFeedAddress',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'treasuryAddr', 'type': 'address'}
-      ],
-      'name': 'setTreasuryAddress',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'totalReservedInsurance',
-      'outputs': [
-        {'internalType': 'uint256', 'name': '', 'type': 'uint256'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'totalReservedRzusd',
-      'outputs': [
-        {'internalType': 'uint256', 'name': '', 'type': 'uint256'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [
-        {'internalType': 'address', 'name': 'newOwner', 'type': 'address'}
-      ],
-      'name': 'transferOwnership',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'treasury',
-      'outputs': [
-        {'internalType': 'address', 'name': '', 'type': 'address'}
-      ],
-      'stateMutability': 'view',
-      'type': 'function'
-    },
-    {
-      'inputs': [],
-      'name': 'unpause',
-      'outputs': [],
-      'stateMutability': 'nonpayable',
-      'type': 'function'
+      'anonymous': false
     }
+  ];
+
+  static final List<Map<String, Object>> approveAbi = [
+    {
+      'name': 'approve',
+      'type': 'function',
+      'stateMutability': 'nonpayable',
+      'inputs': [
+        {'name': 'spender', 'type': 'address'},
+        {'name': 'amount', 'type': 'uint256'},
+      ],
+      'outputs': [],
+    },
   ];
 
   static final List<Map<String, Object>> _insuranceAbi = [

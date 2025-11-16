@@ -7,9 +7,11 @@ import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/auth_service/auth_service.dart';
 import 'package:coin_hall/core/services/game_service/game_service.dart';
 import 'package:coin_hall/core/services/http_service/http_service.dart';
+import 'package:coin_hall/core/services/prediction_service/prediction_service.dart';
 import 'package:coin_hall/core/services/socket_service/socket_service.dart';
 import 'package:coin_hall/core/services/stats_serivce/stats_serivce.dart';
 import 'package:coin_hall/core/services/status_service/status_service.dart';
+import 'package:coin_hall/pages/nested/cubit/user_stats_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -20,13 +22,10 @@ import 'package:reown_appkit/reown_appkit.dart';
 Widget appInjection(Widget child) {
   return MultiRepositoryProvider(
     providers: [
-      // RepositoryProvider(
-      //   create: (context) => DeepLinkHandler()..init(),
-      //   lazy: false,
-      // ),
       RepositoryProvider(
-        create: (context) {
-          const rpc = 'https://sepolia.drpc.org';
+        create: (z) {
+          const rpc =
+              'https://bsc-mainnet.nodereal.io/v1/e67c75f850574f2fb42fd8820434497b';
 
           return Web3Client(rpc, http.Client());
         },
@@ -36,7 +35,6 @@ Widget appInjection(Widget child) {
         create: (context) => AuthInterceptor(),
         lazy: false,
       ),
-
       RepositoryProvider(
         create: (context) => Dio(
           BaseOptions(
@@ -65,21 +63,9 @@ Widget appInjection(Widget child) {
       RepositoryProvider(
           create: (context) => SocketService(
                 authInterceptor: context.read(),
-              )
+              )..connect()
           // ..connect(),
           ),
-
-      // RepositoryProvider(
-      //   create: (context) => OrdersService(
-      //     adapter: context.read(),
-      //   ),
-      // ),
-      // RepositoryProvider(
-      //   create: (context) => StatsService(
-      //     adapter: context.read(),
-      //   ),
-      // ),
-
       RepositoryProvider(
         create: (context) => StatusService(
           adapter: context.read(),
@@ -94,6 +80,12 @@ Widget appInjection(Widget child) {
       ),
       RepositoryProvider(
         create: (context) => GameService(
+          adapter: context.read(),
+        ),
+        lazy: false,
+      ),
+      RepositoryProvider(
+        create: (context) => PredictionService(
           adapter: context.read(),
         ),
         lazy: false,
@@ -120,6 +112,13 @@ Widget appInjection(Widget child) {
           create: (context) => RzQuantiyBloc(
             socketService: context.read(),
           )..add(const RzQuantiyEvent.started()),
+          lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => UserStatsCubit(
+            statsService: context.read(),
+            authInterceptor: context.read(),
+          ),
           lazy: false,
         ),
       ],

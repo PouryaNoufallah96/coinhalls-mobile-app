@@ -1,5 +1,8 @@
 import 'package:coin_hall/components/app_scaffold.dart';
+import 'package:coin_hall/core/blocs/prices/price_bloc.dart';
+import 'package:coin_hall/pages/nested/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
@@ -39,8 +42,37 @@ class _NestedPageState extends State<NestedPage> {
       body: SafeArea(
         child: Stack(
           children: [
-            Positioned.fill(
-              child: widget.child,
+            BlocSelector<UserStatsCubit, UserStatsState, bool>(
+              selector: (state) {
+                return state.maybeWhen(
+                  success: (_) => false,
+                  orElse: () => true,
+                );
+              },
+              builder: (context, isInProgress) {
+                if (isInProgress) {
+                  return const Center(
+                    child: CircularProgressIndicator.adaptive(),
+                  );
+                }
+
+                return BlocSelector<PriceBloc, PriceState, bool>(
+                  selector: (state) {
+                    return state.prices.isEmpty;
+                  },
+                  builder: (context, isLoading) {
+                    if (isLoading) {
+                      return const Center(
+                        child: CircularProgressIndicator.adaptive(),
+                      );
+                    }
+
+                    return Positioned.fill(
+                      child: widget.child,
+                    );
+                  },
+                );
+              },
             ),
             Align(
               alignment: Alignment.bottomCenter,
@@ -64,50 +96,6 @@ class _BottomNav extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xff4024d1).withValues(alpha: .16),
-            blurRadius: 16,
-            spreadRadius: -4,
-            offset: const Offset(0, -4),
-          ),
-        ],
-      ),
-      child: Row(
-        spacing: 32,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          _NavItem(
-            text: 'History',
-            src: 'assets/icons/history.svg',
-            withBackground: false,
-            onTap: shell.goBranch,
-            index: 0,
-            groupIndex: shell.currentIndex,
-          ),
-          _NavItem(
-            text: null,
-            src: 'assets/icons/add_plus.svg',
-            withBackground: true,
-            onTap: shell.goBranch,
-            index: 1,
-            groupIndex: shell.currentIndex,
-          ),
-          _NavItem(
-            text: 'Setting',
-            src: 'assets/icons/settings.svg',
-            withBackground: false,
-            onTap: shell.goBranch,
-            index: 2,
-            groupIndex: shell.currentIndex,
-          ),
-        ],
-      ),
-    );
-
     return CustomPaint(
       painter: _BottomNavPainter(),
       size: const Size.fromHeight(116),
@@ -118,10 +106,10 @@ class _BottomNav extends StatelessWidget {
             GestureDetector(
               onTap: () => shell.goBranch(1),
               child: Align(
-                alignment: Alignment.topCenter,
                 child: Column(
                   spacing: 12,
                   children: [
+                    const SizedBox(height: 8),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: RadialGradient(
@@ -266,18 +254,18 @@ class _BottomNavPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final path = Path()
       ..moveTo(0, size.height * .3)
-      ..lineTo(size.width * .33, size.height * .3)
-      ..arcToPoint(Offset(size.width * .67, size.height * .3),
-          radius: const Radius.circular(68))
+      ..lineTo(size.width * .37, size.height * .3)
+      ..arcToPoint(Offset(size.width * .63, size.height * .3),
+          radius: const Radius.circular(50))
       ..lineTo(size.width, size.height * .3)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);
 
     final shadowPath = Path()
       ..moveTo(0, size.height * .3 - 6)
-      ..lineTo(size.width * .33, size.height * .3 - 6)
-      ..arcToPoint(Offset(size.width * .67, size.height * .3 - 6),
-          radius: const Radius.circular(68))
+      ..lineTo(size.width * .37, size.height * .3 - 6)
+      ..arcToPoint(Offset(size.width * .63, size.height * .3 - 6),
+          radius: const Radius.circular(50))
       ..lineTo(size.width, size.height * .3 - 6)
       ..lineTo(size.width, size.height)
       ..lineTo(0, size.height);

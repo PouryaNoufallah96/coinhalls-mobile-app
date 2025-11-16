@@ -23,10 +23,14 @@ mixin _$PredictionHistory {
   String get createMoment => throw _privateConstructorUsedError;
   String get gameName => throw _privateConstructorUsedError;
   String get gameEndMoment => throw _privateConstructorUsedError;
+  String get predictionReference => throw _privateConstructorUsedError;
   String get gameStopMoment => throw _privateConstructorUsedError;
   String get tokenSymbol => throw _privateConstructorUsedError;
   String get tokenName => throw _privateConstructorUsedError;
   double get predictionTokenAmount => throw _privateConstructorUsedError;
+  String get predictionTokenAmountInWei => throw _privateConstructorUsedError;
+  double get registerPayAmount => throw _privateConstructorUsedError;
+  String get registerPayAmountInWei => throw _privateConstructorUsedError;
   PredictionState get state => throw _privateConstructorUsedError;
   bool get canEdit => throw _privateConstructorUsedError;
 
@@ -50,10 +54,14 @@ abstract class $PredictionHistoryCopyWith<$Res> {
       {String createMoment,
       String gameName,
       String gameEndMoment,
+      String predictionReference,
       String gameStopMoment,
       String tokenSymbol,
       String tokenName,
       double predictionTokenAmount,
+      String predictionTokenAmountInWei,
+      double registerPayAmount,
+      String registerPayAmountInWei,
       PredictionState state,
       bool canEdit});
 }
@@ -76,10 +84,14 @@ class _$PredictionHistoryCopyWithImpl<$Res, $Val extends PredictionHistory>
     Object? createMoment = null,
     Object? gameName = null,
     Object? gameEndMoment = null,
+    Object? predictionReference = null,
     Object? gameStopMoment = null,
     Object? tokenSymbol = null,
     Object? tokenName = null,
     Object? predictionTokenAmount = null,
+    Object? predictionTokenAmountInWei = null,
+    Object? registerPayAmount = null,
+    Object? registerPayAmountInWei = null,
     Object? state = null,
     Object? canEdit = null,
   }) {
@@ -95,6 +107,10 @@ class _$PredictionHistoryCopyWithImpl<$Res, $Val extends PredictionHistory>
       gameEndMoment: null == gameEndMoment
           ? _value.gameEndMoment
           : gameEndMoment // ignore: cast_nullable_to_non_nullable
+              as String,
+      predictionReference: null == predictionReference
+          ? _value.predictionReference
+          : predictionReference // ignore: cast_nullable_to_non_nullable
               as String,
       gameStopMoment: null == gameStopMoment
           ? _value.gameStopMoment
@@ -112,6 +128,18 @@ class _$PredictionHistoryCopyWithImpl<$Res, $Val extends PredictionHistory>
           ? _value.predictionTokenAmount
           : predictionTokenAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      predictionTokenAmountInWei: null == predictionTokenAmountInWei
+          ? _value.predictionTokenAmountInWei
+          : predictionTokenAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String,
+      registerPayAmount: null == registerPayAmount
+          ? _value.registerPayAmount
+          : registerPayAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      registerPayAmountInWei: null == registerPayAmountInWei
+          ? _value.registerPayAmountInWei
+          : registerPayAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -136,10 +164,14 @@ abstract class _$$PredictionHistoryImplCopyWith<$Res>
       {String createMoment,
       String gameName,
       String gameEndMoment,
+      String predictionReference,
       String gameStopMoment,
       String tokenSymbol,
       String tokenName,
       double predictionTokenAmount,
+      String predictionTokenAmountInWei,
+      double registerPayAmount,
+      String registerPayAmountInWei,
       PredictionState state,
       bool canEdit});
 }
@@ -160,10 +192,14 @@ class __$$PredictionHistoryImplCopyWithImpl<$Res>
     Object? createMoment = null,
     Object? gameName = null,
     Object? gameEndMoment = null,
+    Object? predictionReference = null,
     Object? gameStopMoment = null,
     Object? tokenSymbol = null,
     Object? tokenName = null,
     Object? predictionTokenAmount = null,
+    Object? predictionTokenAmountInWei = null,
+    Object? registerPayAmount = null,
+    Object? registerPayAmountInWei = null,
     Object? state = null,
     Object? canEdit = null,
   }) {
@@ -179,6 +215,10 @@ class __$$PredictionHistoryImplCopyWithImpl<$Res>
       gameEndMoment: null == gameEndMoment
           ? _value.gameEndMoment
           : gameEndMoment // ignore: cast_nullable_to_non_nullable
+              as String,
+      predictionReference: null == predictionReference
+          ? _value.predictionReference
+          : predictionReference // ignore: cast_nullable_to_non_nullable
               as String,
       gameStopMoment: null == gameStopMoment
           ? _value.gameStopMoment
@@ -196,6 +236,18 @@ class __$$PredictionHistoryImplCopyWithImpl<$Res>
           ? _value.predictionTokenAmount
           : predictionTokenAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      predictionTokenAmountInWei: null == predictionTokenAmountInWei
+          ? _value.predictionTokenAmountInWei
+          : predictionTokenAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String,
+      registerPayAmount: null == registerPayAmount
+          ? _value.registerPayAmount
+          : registerPayAmount // ignore: cast_nullable_to_non_nullable
+              as double,
+      registerPayAmountInWei: null == registerPayAmountInWei
+          ? _value.registerPayAmountInWei
+          : registerPayAmountInWei // ignore: cast_nullable_to_non_nullable
+              as String,
       state: null == state
           ? _value.state
           : state // ignore: cast_nullable_to_non_nullable
@@ -215,10 +267,14 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
       {required this.createMoment,
       required this.gameName,
       required this.gameEndMoment,
+      required this.predictionReference,
       required this.gameStopMoment,
       required this.tokenSymbol,
       required this.tokenName,
       required this.predictionTokenAmount,
+      required this.predictionTokenAmountInWei,
+      required this.registerPayAmount,
+      required this.registerPayAmountInWei,
       required this.state,
       required this.canEdit});
 
@@ -232,6 +288,8 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
   @override
   final String gameEndMoment;
   @override
+  final String predictionReference;
+  @override
   final String gameStopMoment;
   @override
   final String tokenSymbol;
@@ -240,13 +298,19 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
   @override
   final double predictionTokenAmount;
   @override
+  final String predictionTokenAmountInWei;
+  @override
+  final double registerPayAmount;
+  @override
+  final String registerPayAmountInWei;
+  @override
   final PredictionState state;
   @override
   final bool canEdit;
 
   @override
   String toString() {
-    return 'PredictionHistory(createMoment: $createMoment, gameName: $gameName, gameEndMoment: $gameEndMoment, gameStopMoment: $gameStopMoment, tokenSymbol: $tokenSymbol, tokenName: $tokenName, predictionTokenAmount: $predictionTokenAmount, state: $state, canEdit: $canEdit)';
+    return 'PredictionHistory(createMoment: $createMoment, gameName: $gameName, gameEndMoment: $gameEndMoment, predictionReference: $predictionReference, gameStopMoment: $gameStopMoment, tokenSymbol: $tokenSymbol, tokenName: $tokenName, predictionTokenAmount: $predictionTokenAmount, predictionTokenAmountInWei: $predictionTokenAmountInWei, registerPayAmount: $registerPayAmount, registerPayAmountInWei: $registerPayAmountInWei, state: $state, canEdit: $canEdit)';
   }
 
   @override
@@ -260,6 +324,8 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
                 other.gameName == gameName) &&
             (identical(other.gameEndMoment, gameEndMoment) ||
                 other.gameEndMoment == gameEndMoment) &&
+            (identical(other.predictionReference, predictionReference) ||
+                other.predictionReference == predictionReference) &&
             (identical(other.gameStopMoment, gameStopMoment) ||
                 other.gameStopMoment == gameStopMoment) &&
             (identical(other.tokenSymbol, tokenSymbol) ||
@@ -268,6 +334,14 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
                 other.tokenName == tokenName) &&
             (identical(other.predictionTokenAmount, predictionTokenAmount) ||
                 other.predictionTokenAmount == predictionTokenAmount) &&
+            (identical(other.predictionTokenAmountInWei,
+                    predictionTokenAmountInWei) ||
+                other.predictionTokenAmountInWei ==
+                    predictionTokenAmountInWei) &&
+            (identical(other.registerPayAmount, registerPayAmount) ||
+                other.registerPayAmount == registerPayAmount) &&
+            (identical(other.registerPayAmountInWei, registerPayAmountInWei) ||
+                other.registerPayAmountInWei == registerPayAmountInWei) &&
             (identical(other.state, state) || other.state == state) &&
             (identical(other.canEdit, canEdit) || other.canEdit == canEdit));
   }
@@ -279,10 +353,14 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
       createMoment,
       gameName,
       gameEndMoment,
+      predictionReference,
       gameStopMoment,
       tokenSymbol,
       tokenName,
       predictionTokenAmount,
+      predictionTokenAmountInWei,
+      registerPayAmount,
+      registerPayAmountInWei,
       state,
       canEdit);
 
@@ -308,10 +386,14 @@ abstract class _PredictionHistory implements PredictionHistory {
       {required final String createMoment,
       required final String gameName,
       required final String gameEndMoment,
+      required final String predictionReference,
       required final String gameStopMoment,
       required final String tokenSymbol,
       required final String tokenName,
       required final double predictionTokenAmount,
+      required final String predictionTokenAmountInWei,
+      required final double registerPayAmount,
+      required final String registerPayAmountInWei,
       required final PredictionState state,
       required final bool canEdit}) = _$PredictionHistoryImpl;
 
@@ -325,6 +407,8 @@ abstract class _PredictionHistory implements PredictionHistory {
   @override
   String get gameEndMoment;
   @override
+  String get predictionReference;
+  @override
   String get gameStopMoment;
   @override
   String get tokenSymbol;
@@ -332,6 +416,12 @@ abstract class _PredictionHistory implements PredictionHistory {
   String get tokenName;
   @override
   double get predictionTokenAmount;
+  @override
+  String get predictionTokenAmountInWei;
+  @override
+  double get registerPayAmount;
+  @override
+  String get registerPayAmountInWei;
   @override
   PredictionState get state;
   @override

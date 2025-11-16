@@ -15,6 +15,18 @@ sealed class AppResponse<T> with EquatableMixin {
       _ => [],
     };
   }
+
+  List<D> parsedListData<D>(D Function(Map<String, dynamic> json) parser) {
+    return switch (this) {
+      AppSuccessResponse(:final data) =>
+        (((data! as Map<String, dynamic>)['data']
+                as Map<String, dynamic>)['data'] as List<dynamic>)
+            .cast<Map<String, dynamic>>()
+            .map(parser)
+            .toList(),
+      _ => [],
+    };
+  }
 }
 
 class AppSuccessResponse<T> extends AppResponse<T> {
@@ -60,6 +72,7 @@ class HttpService {
     HttpMethod method = HttpMethod.get,
     Map<String, dynamic>? body,
     int? resStatusCode,
+    bool withToast = true,
   }) async {
     try {
       final res = await _dio.requestUri<T>(
@@ -87,19 +100,21 @@ class HttpService {
     } on DioException catch (e) {
       final message =
           (e.response?.data as Map<String, dynamic>?)?['Message'] as String?;
-
       final errorMessage = message ?? e.message ?? 'unknown error $e';
 
-      if (e.response?.statusCode != null &&
-          (e.response!.statusCode != 403 || e.response!.statusCode != 401)) {
-        toastification.show(
-          style: ToastificationStyle.fillColored,
-          type: ToastificationType.error,
-          title: Text(errorMessage),
-          borderRadius: BorderRadius.circular(6),
-          autoCloseDuration: const Duration(seconds: 4),
-        );
+      if (withToast) {
+        if (e.response?.statusCode != null &&
+            (e.response!.statusCode != 403 || e.response!.statusCode != 401)) {
+          toastification.show(
+            style: ToastificationStyle.fillColored,
+            type: ToastificationType.error,
+            title: Text(errorMessage),
+            borderRadius: BorderRadius.circular(6),
+            autoCloseDuration: const Duration(seconds: 4),
+          );
+        }
       }
+
       return AppFailureResponse(
         errorMessage,
         e.response?.statusCode ?? -1,

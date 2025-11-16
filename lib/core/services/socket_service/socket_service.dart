@@ -27,7 +27,7 @@ class SocketService {
   SocketService({
     required AuthInterceptor authInterceptor,
   }) : _authInterceptor = authInterceptor;
-  static const String _baseUrl = 'https://autoapi.rzprime.com';
+  static const String _baseUrl = 'https://api.coinhalls.com';
   static const String _pricesHubPath = '/hubs/prices';
   static const String _shieldHubPath = '/hubs/NotifyShield';
   static const String _inventoriesHubPath = '/hubs/NotifyInventories';
@@ -58,7 +58,7 @@ class SocketService {
     await disconnect();
 
     await _startPrices();
-    await _startInventory();
+    // await _startInventory();
   }
 
   Future<void> disconnect({bool closeStreams = false}) async {

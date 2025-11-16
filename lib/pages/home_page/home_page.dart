@@ -1,19 +1,37 @@
+import 'package:coin_hall/core/blocs/categories/categories_cubit.dart';
 import 'package:coin_hall/pages/home_page/widgets/game_categories.dart';
+import 'package:coin_hall/pages/nested/cubit/user_stats_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends HookWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView(
-      slivers: <Widget>[
-        SliverPadding(padding: EdgeInsetsGeometry.only(top: 48)),
-        SliverToBoxAdapter(
-          child: _Header(),
-        ),
-        GameCategories(),
-      ],
+    useOnAppLifecycleStateChange((previous, current) async {
+      if (previous == AppLifecycleState.inactive &&
+          current == AppLifecycleState.resumed) {
+        await Future.wait([
+          context.read<UserStatsCubit>().fetch(),
+        ]);
+      }
+    });
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        await context.read<CategoriesCubit>().fetch();
+      },
+      child: const CustomScrollView(
+        slivers: <Widget>[
+          SliverPadding(padding: EdgeInsetsGeometry.only(top: 48)),
+          SliverToBoxAdapter(
+            child: _Header(),
+          ),
+          GameCategories(),
+        ],
+      ),
     );
   }
 }

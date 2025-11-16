@@ -1,3 +1,4 @@
+import 'package:coin_hall/core/env.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'models.freezed.dart';
@@ -29,6 +30,7 @@ class GameData with _$GameData {
     required String stopTime,
     required String endTime,
     required String attachmentUrl,
+    required String gameReference,
     String? tokenAddress,
     String? description,
     String? title,
@@ -36,6 +38,12 @@ class GameData with _$GameData {
 
   factory GameData.fromJson(Map<String, dynamic> json) =>
       _$GameDataFromJson(json);
+}
+
+extension GameDataX on GameData {
+  String get imageUrl {
+    return '${Env.apiEndPoint}File/DownloadFile/$attachmentUrl';
+  }
 }
 
 enum GameDataState {

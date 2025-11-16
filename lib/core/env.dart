@@ -78,15 +78,15 @@ sealed class _Env {
 class _StageEnv extends _Env {
   _StageEnv()
       : super(
-          reownProjectId: '6e91607e63e1d699223ba2b0d383634a',
+          reownProjectId: '90e40102e61f0ebc907a7f14bcc82465',
           apiEndPoint: 'https://api.coinhalls.com/api/v1/',
           clientId: 'app_mainappful',
           clientSecret: 'vxzldacqgvazzxqgwibo',
           publicSignature: 'gsouqbsqaiginijimufycgvduqj',
           inventroyOrderHub: 'wss://api.rzprime.com/hubs/inventory',
           paidOrderHub: 'wss://api.rzprime.com/hubs/paidOrder',
-          appContractAddress: '0xe694d3afFA558BB48c1E3292FBe8ab35a9873906',
-          appContractName: 'TokenForwardSale',
+          appContractAddress: '0x9E84758Fa09AA4A138CB726C7d4cEDBb5cce2340',
+          appContractName: 'CoinHalls',
           insuranceAddress: '0x64E4fea6e4F3637025c7Bcd878E2B238B01f7D4e',
           insuranceName: 'insurance',
           applicationId: 'coinhalls.mainapp',

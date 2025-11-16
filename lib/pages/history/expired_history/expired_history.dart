@@ -2,30 +2,59 @@ import 'package:coin_hall/core/blocs/fetch_list_base_cubit/fetch_list_base_cubit
 import 'package:coin_hall/core/hooks/fetch_more.dart';
 import 'package:coin_hall/core/services/prediction_service/models.dart';
 import 'package:coin_hall/pages/history/expired_history/cubit/expired_history_cubit.dart';
+import 'package:coin_hall/pages/history/widgets/history_item.dart';
+import 'package:coin_hall/pages/history/widgets/history_symbol_filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
-class ExpiredHistory extends StatelessWidget {
+class ExpiredHistory extends HookWidget {
   const ExpiredHistory({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ExpiredHistoryCubit,
-        FetchListBaseState<PredictionHistory>>(
-      builder: (context, state) {
-        return switch (state) {
-          final FetchListBaseInitial<PredictionHistory> _ =>
-            const SizedBox.shrink(),
-          final FetchListBaseInProgress<PredictionHistory> _ => const Center(
-              child: CircularProgressIndicator.adaptive(),
+    final notifier = useState('All');
+
+    return Column(
+      children: [
+        SizedBox(
+          height: 88,
+          width: double.infinity,
+          child: HistorySymbolFilter(
+            notifier: notifier,
+          ),
+        ),
+        BlocProvider(
+          key: ValueKey(notifier.value),
+          create: (context) {
+            return ExpiredHistoryCubit(
+                predictionService: context.read(),
+                symbol: notifier.value == 'All' ? null : notifier.value)
+              ..fetch();
+          },
+          child: Expanded(
+            child: BlocBuilder<ExpiredHistoryCubit,
+                FetchListBaseState<PredictionHistory>>(
+              builder: (context, state) {
+                return switch (state) {
+                  final FetchListBaseInitial<PredictionHistory> _ =>
+                    const SizedBox.shrink(),
+                  final FetchListBaseInProgress<PredictionHistory> _ =>
+                    const Center(
+                      child: CircularProgressIndicator.adaptive(),
+                    ),
+                  final FetchListBaseSuccess<PredictionHistory> i => _Body(
+                      orders: i.data,
+                      notifier: notifier,
+                    ),
+                  final FetchListBaseFailure<PredictionHistory> _ =>
+                    const SizedBox.shrink(),
+                };
+              },
             ),
-          final FetchListBaseSuccess<PredictionHistory> i =>
-            _Body(orders: i.data),
-          final FetchListBaseFailure<PredictionHistory> _ =>
-            const SizedBox.shrink(),
-        };
-      },
+          ),
+        ),
+      ],
     );
   }
 }
@@ -33,9 +62,11 @@ class ExpiredHistory extends StatelessWidget {
 class _Body extends HookWidget {
   const _Body({
     required this.orders,
+    required this.notifier,
   });
 
   final List<PredictionHistory> orders;
+  final ValueNotifier<String> notifier;
 
   @override
   Widget build(BuildContext context) {
@@ -58,9 +89,14 @@ class _Body extends HookWidget {
                   Icon(
                     Icons.hourglass_empty_rounded,
                     size: 28,
-                    color: Colors.black,
+                    color: Colors.white,
                   ),
-                  Text('No data'),
+                  Text(
+                    'No data',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
                 ],
               ),
             )
@@ -78,8 +114,10 @@ class _Body extends HookWidget {
 
                 return Padding(
                   padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: Text(
-                    order.gameName,
+                  child: HistoryItem(
+                    item: order,
+                    onRefresh: () =>
+                        context.read<ExpiredHistoryCubit>().fetch(),
                   ),
                 );
               },

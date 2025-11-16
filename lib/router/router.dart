@@ -5,8 +5,6 @@ final GlobalKey<NavigatorState> _sectionANavigatorKey =
     GlobalKey<NavigatorState>();
 
 mixin AutoShieldAppRouter on State<AutoShieldApp> {
-  bool isInAdd = false;
-
   GoRouter get router {
     return GoRouter(
       initialLocation: '/home_page',
@@ -15,15 +13,17 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
         authStream: context.read<AuthInterceptor>().stream,
         preferencesStream: context.read<PreferencesBloc>().stream,
       ),
-      redirect: (context, state) async {
+      debugLogDiagnostics: true,
+      onEnter: (context, current, next, router) async {
+        final isDeepLink = next.uri.hasScheme || next.uri.host.isNotEmpty;
+
+        if (!isDeepLink) return const Allow();
+
+        return const Block.stop();
+      },
+      redirect: (context, state) {
         final streamValue = context.read<AuthInterceptor>().stream.value;
         final token = streamValue.token;
-
-        isInAdd = state.matchedLocation == '/assets/add_shield';
-
-        if (state.uri.toString().startsWith('metacoinguard') && isInAdd) {
-          return null;
-        }
 
         final isLoggingIn = state.uri.path == '/';
 
@@ -41,22 +41,10 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                 ),
                 BlocProvider(
                   create: (context) {
-                    return GameListCubit(gameService: context.read())..fetch();
-                  },
-                ),
-                BlocProvider(
-                  create: (context) {
                     return CategoriesCubit(gameService: context.read())
                       ..fetch();
                   },
                 ),
-
-                // BlocProvider(
-                //   create: (context) => UserStatsCubit(
-                //     statsService: context.read(),
-                //   )..fetch(),
-                //   lazy: false,
-                // )
               ],
               child: StreamBuilder(
                   stream: context
@@ -91,30 +79,32 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                   builder: (context, state) {
                     return const HomePage();
                   },
-                  // routes: [
-                  //   GoRoute(
-                  //     parentNavigatorKey: routerKey,
-                  //     path: 'add_shield',
-                  //     name: 'add_shield',
-                  //     builder: (context, state) {
-                  //       final stat = switch (state.extra) {
-                  //         final Map<String, dynamic> i =>
-                  //           WalletStats.fromJson(i),
-                  //         _ => state.extra! as WalletStats
-                  //       };
+                  routes: [
+                    GoRoute(
+                      parentNavigatorKey: routerKey,
+                      path: 'select_game',
+                      name: 'select_game',
+                      builder: (context, state) {
+                        final stat = state.uri.queryParameters['address']!;
 
-                  //       return MultiBlocProvider(
-                  //         providers: [
-                  //           BlocProvider.value(
-                  //             value: _sectionANavigatorKey.currentContext!
-                  //                 .read<ShieldConfigCubit>(),
-                  //           ),
-                  //         ],
-                  //         child: AddShieldPage(stat: stat),
-                  //       );
-                  //     },
-                  //   )
-                  // ],
+                        return SelectGamePge(
+                          token: stat,
+                        );
+                      },
+                    ),
+                    GoRoute(
+                      parentNavigatorKey: routerKey,
+                      path: 'place_guess',
+                      name: 'place_guess',
+                      builder: (context, state) {
+                        final data = state.extra! as Map<String, dynamic>;
+
+                        return PlaceGuessPage(
+                          gameData: data,
+                        );
+                      },
+                    )
+                  ],
                 ),
               ],
             ),
@@ -123,7 +113,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                 GoRoute(
                   path: '/settings',
                   builder: (context, state) {
-                    return const SizedBox.shrink();
+                    return const SettingsPage();
                   },
                 ),
               ],

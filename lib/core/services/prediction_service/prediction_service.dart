@@ -8,29 +8,47 @@ class PredictionService {
 
   final HttpService _adapter;
 
+  Future<List<PredictionHistory>> addPrediction(
+      String reference, List<double> amount) async {
+    final res = await _adapter.requestUri<Map<String, dynamic>>(
+      Uri.parse('Prediction/AddPrediction'),
+      method: HttpMethod.post,
+      body: {
+        'gameReference': reference,
+        'predictionsTokenAmount': [...amount]
+      },
+    );
+
+    return res.parsedList(PredictionHistory.fromJson);
+  }
+
   Future<(List<PredictionHistory> data, int totalCount)> getActivePredict(
     int page,
+    String? symbol,
   ) async {
-    return _getPredict(['Active'], page, 100);
+    return _getPredict(['Active'], page, 24, symbol);
   }
 
   Future<(List<PredictionHistory> data, int totalCount)> getExpirePredict(
     int page,
+    String? symbol,
   ) async {
-    return _getPredict(['Lose', 'Pending', 'Win'], page, 100);
+    return _getPredict(['Lose', 'Pending', 'Win'], page, 24, symbol);
   }
 
   Future<(List<PredictionHistory> data, int totalCount)> _getPredict(
     List<String> states,
     int page,
     int size,
+    String? symbol,
   ) async {
     final res = await _adapter.requestUri<Map<String, dynamic>>(
-      Uri.parse('Shield/GetAllShields'),
+      Uri.parse('Prediction/GetPredictionList'),
       method: HttpMethod.post,
       body: {
         'pagination': {'page': page, 'size': size},
         'stateFilter': [...states],
+        if (symbol != null) 'tokenFilters': [symbol],
       },
     );
 

@@ -15,12 +15,14 @@ class GameService {
     return res.parsedList(GameCategory.fromJson);
   }
 
-  Future<List<GameData>> listOfGames() async {
+  Future<List<GameData>> listOfGames(String token) async {
     final res = await _adapter.requestUri<Map<String, dynamic>>(
-      Uri.parse('Game/GetGameList'),
-      method: HttpMethod.post,
-    );
+        Uri.parse('Game/GetGameList'),
+        method: HttpMethod.post,
+        body: {
+          'tokenAddress': token,
+        });
 
-    return res.parsedList(GameData.fromJson);
+    return res.parsedListData(GameData.fromJson);
   }
 }

@@ -248,6 +248,7 @@ mixin _$GameData {
   String get stopTime => throw _privateConstructorUsedError;
   String get endTime => throw _privateConstructorUsedError;
   String get attachmentUrl => throw _privateConstructorUsedError;
+  String get gameReference => throw _privateConstructorUsedError;
   String? get tokenAddress => throw _privateConstructorUsedError;
   String? get description => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
@@ -278,6 +279,7 @@ abstract class $GameDataCopyWith<$Res> {
       String stopTime,
       String endTime,
       String attachmentUrl,
+      String gameReference,
       String? tokenAddress,
       String? description,
       String? title});
@@ -308,6 +310,7 @@ class _$GameDataCopyWithImpl<$Res, $Val extends GameData>
     Object? stopTime = null,
     Object? endTime = null,
     Object? attachmentUrl = null,
+    Object? gameReference = null,
     Object? tokenAddress = freezed,
     Object? description = freezed,
     Object? title = freezed,
@@ -353,6 +356,10 @@ class _$GameDataCopyWithImpl<$Res, $Val extends GameData>
           ? _value.attachmentUrl
           : attachmentUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      gameReference: null == gameReference
+          ? _value.gameReference
+          : gameReference // ignore: cast_nullable_to_non_nullable
+              as String,
       tokenAddress: freezed == tokenAddress
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -388,6 +395,7 @@ abstract class _$$GameDataImplCopyWith<$Res>
       String stopTime,
       String endTime,
       String attachmentUrl,
+      String gameReference,
       String? tokenAddress,
       String? description,
       String? title});
@@ -416,6 +424,7 @@ class __$$GameDataImplCopyWithImpl<$Res>
     Object? stopTime = null,
     Object? endTime = null,
     Object? attachmentUrl = null,
+    Object? gameReference = null,
     Object? tokenAddress = freezed,
     Object? description = freezed,
     Object? title = freezed,
@@ -461,6 +470,10 @@ class __$$GameDataImplCopyWithImpl<$Res>
           ? _value.attachmentUrl
           : attachmentUrl // ignore: cast_nullable_to_non_nullable
               as String,
+      gameReference: null == gameReference
+          ? _value.gameReference
+          : gameReference // ignore: cast_nullable_to_non_nullable
+              as String,
       tokenAddress: freezed == tokenAddress
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
@@ -491,6 +504,7 @@ class _$GameDataImpl implements _GameData {
       required this.stopTime,
       required this.endTime,
       required this.attachmentUrl,
+      required this.gameReference,
       this.tokenAddress,
       this.description,
       this.title});
@@ -519,6 +533,8 @@ class _$GameDataImpl implements _GameData {
   @override
   final String attachmentUrl;
   @override
+  final String gameReference;
+  @override
   final String? tokenAddress;
   @override
   final String? description;
@@ -527,7 +543,7 @@ class _$GameDataImpl implements _GameData {
 
   @override
   String toString() {
-    return 'GameData(state: $state, prizeValue: $prizeValue, targetValue: $targetValue, tokenSymbol: $tokenSymbol, tokenName: $tokenName, gameName: $gameName, startTime: $startTime, stopTime: $stopTime, endTime: $endTime, attachmentUrl: $attachmentUrl, tokenAddress: $tokenAddress, description: $description, title: $title)';
+    return 'GameData(state: $state, prizeValue: $prizeValue, targetValue: $targetValue, tokenSymbol: $tokenSymbol, tokenName: $tokenName, gameName: $gameName, startTime: $startTime, stopTime: $stopTime, endTime: $endTime, attachmentUrl: $attachmentUrl, gameReference: $gameReference, tokenAddress: $tokenAddress, description: $description, title: $title)';
   }
 
   @override
@@ -553,6 +569,8 @@ class _$GameDataImpl implements _GameData {
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.attachmentUrl, attachmentUrl) ||
                 other.attachmentUrl == attachmentUrl) &&
+            (identical(other.gameReference, gameReference) ||
+                other.gameReference == gameReference) &&
             (identical(other.tokenAddress, tokenAddress) ||
                 other.tokenAddress == tokenAddress) &&
             (identical(other.description, description) ||
@@ -574,6 +592,7 @@ class _$GameDataImpl implements _GameData {
       stopTime,
       endTime,
       attachmentUrl,
+      gameReference,
       tokenAddress,
       description,
       title);
@@ -606,6 +625,7 @@ abstract class _GameData implements GameData {
       required final String stopTime,
       required final String endTime,
       required final String attachmentUrl,
+      required final String gameReference,
       final String? tokenAddress,
       final String? description,
       final String? title}) = _$GameDataImpl;
@@ -633,6 +653,8 @@ abstract class _GameData implements GameData {
   String get endTime;
   @override
   String get attachmentUrl;
+  @override
+  String get gameReference;
   @override
   String? get tokenAddress;
   @override

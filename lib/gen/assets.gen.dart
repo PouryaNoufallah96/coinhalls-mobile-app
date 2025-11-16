@@ -112,6 +112,10 @@ class $AssetsIconsGen {
   SvgGenImage get arrowReload =>
       const SvgGenImage('assets/icons/arrow_reload.svg');
 
+  /// File path: assets/icons/chart-bar-square.svg
+  SvgGenImage get chartBarSquare =>
+      const SvgGenImage('assets/icons/chart-bar-square.svg');
+
   /// File path: assets/icons/clock.svg
   SvgGenImage get clock => const SvgGenImage('assets/icons/clock.svg');
 
@@ -141,6 +145,7 @@ class $AssetsIconsGen {
         arrowUpRight2,
         arrowDown,
         arrowReload,
+        chartBarSquare,
         clock,
         history,
         playBtn,
@@ -190,6 +195,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/door_frame.png
   AssetGenImage get doorFrame =>
       const AssetGenImage('assets/images/door_frame.png');
+
+  /// File path: assets/images/game_header_art.png
+  AssetGenImage get gameHeaderArt =>
+      const AssetGenImage('assets/images/game_header_art.png');
 
   /// File path: assets/images/gold.png
   AssetGenImage get gold => const AssetGenImage('assets/images/gold.png');
@@ -252,6 +261,10 @@ class $AssetsImagesGen {
   /// File path: assets/images/rz.png
   AssetGenImage get rz => const AssetGenImage('assets/images/rz.png');
 
+  /// File path: assets/images/select_game_frame.png
+  AssetGenImage get selectGameFrame =>
+      const AssetGenImage('assets/images/select_game_frame.png');
+
   /// File path: assets/images/splash_frame.jpg
   AssetGenImage get splashFrame =>
       const AssetGenImage('assets/images/splash_frame.jpg');
@@ -278,6 +291,7 @@ class $AssetsImagesGen {
         coinHallFont,
         czw,
         doorFrame,
+        gameHeaderArt,
         gold,
         goldDisable,
         industrial,
@@ -295,6 +309,7 @@ class $AssetsImagesGen {
         regular,
         regularDisable,
         rz,
+        selectGameFrame,
         splashFrame,
         trip,
         x,
