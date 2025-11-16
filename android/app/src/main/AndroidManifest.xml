@@ -71,7 +71,7 @@
         </intent>
     </queries>
     <application
-        android:label="coin_hall"
+        android:label="Coin Halls"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

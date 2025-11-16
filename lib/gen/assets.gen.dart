@@ -265,6 +265,14 @@ class $AssetsImagesGen {
   AssetGenImage get selectGameFrame =>
       const AssetGenImage('assets/images/select_game_frame.png');
 
+  /// File path: assets/images/settings_art.png
+  AssetGenImage get settingsArt =>
+      const AssetGenImage('assets/images/settings_art.png');
+
+  /// File path: assets/images/settings_title.png
+  AssetGenImage get settingsTitle =>
+      const AssetGenImage('assets/images/settings_title.png');
+
   /// File path: assets/images/splash_frame.jpg
   AssetGenImage get splashFrame =>
       const AssetGenImage('assets/images/splash_frame.jpg');
@@ -310,6 +318,8 @@ class $AssetsImagesGen {
         regularDisable,
         rz,
         selectGameFrame,
+        settingsArt,
+        settingsTitle,
         splashFrame,
         trip,
         x,
