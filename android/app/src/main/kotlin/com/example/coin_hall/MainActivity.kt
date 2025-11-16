@@ -1,4 +1,4 @@
-package com.example.coin_hall
+package com.coin_halls
 
 import io.flutter.embedding.android.FlutterActivity
 
