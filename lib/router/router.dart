@@ -76,6 +76,7 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
               routes: [
                 GoRoute(
                   path: '/home_page',
+                  name: 'home_page',
                   builder: (context, state) {
                     return const HomePage();
                   },

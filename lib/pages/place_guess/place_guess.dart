@@ -62,52 +62,150 @@ class _Body extends StatelessWidget {
   Widget build(BuildContext context) {
     final game = context.read<GameData>();
 
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const IconButton(
-                onPressed: null,
-                icon: SizedBox(),
-              ),
-              const Text(
-                'Try the guess',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w500,
+    return BlocListener<PlaceGuessBloc, PlaceGuessState>(
+      listenWhen: (previous, current) {
+        return previous.payStatus == PayGameGuessStatus.inProgress &&
+            current.payStatus == PayGameGuessStatus.success;
+      },
+      listener: (context, state) {
+        context.goNamed('home_page');
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const IconButton(
+                  onPressed: null,
+                  icon: SizedBox(),
                 ),
-              ),
-              IconButton(
-                onPressed: () => context.pop(),
-                icon: const Icon(
-                  FontAwesomeIcons.arrowRight,
-                  color: Colors.white,
+                const Text(
+                  'Try the guess',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
                 ),
-              ),
-            ],
+                IconButton(
+                  onPressed: () => context.pop(),
+                  icon: const Icon(
+                    FontAwesomeIcons.arrowRight,
+                    color: Colors.white,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        Expanded(
-          child: CustomScrollView(
-            slivers: <Widget>[
-              BlocSelector<PlaceGuessBloc, PlaceGuessState, List<GameGuess>>(
-                selector: (state) {
-                  return state.guesses;
-                },
-                builder: (context, state) {
-                  return SliverList.separated(
-                    itemCount: state.length,
-                    separatorBuilder: (context, index) {
-                      return const SizedBox(height: 16);
-                    },
-                    itemBuilder: (context, index) {
-                      final guess = state[index];
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
+          Expanded(
+            child: CustomScrollView(
+              slivers: <Widget>[
+                BlocSelector<PlaceGuessBloc, PlaceGuessState, List<GameGuess>>(
+                  selector: (state) {
+                    return state.guesses;
+                  },
+                  builder: (context, state) {
+                    return SliverList.separated(
+                      itemCount: state.length,
+                      separatorBuilder: (context, index) {
+                        return const SizedBox(height: 16);
+                      },
+                      itemBuilder: (context, index) {
+                        final guess = state[index];
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 70,
+                            child: DecoratedBox(
+                              decoration: BoxDecoration(
+                                color: const Color(0xffFFEEB9)
+                                    .withValues(alpha: .08),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Row(
+                                children: [
+                                  const SizedBox(width: 14),
+                                  CircleAvatar(
+                                    radius: 24,
+                                    foregroundColor: const Color(0xffFFEEB9),
+                                    backgroundColor: const Color(0xffFFDA95)
+                                        .withValues(alpha: .08),
+                                    child: Center(
+                                      child: Text(
+                                        '${index + 1}',
+                                        style: const TextStyle(
+                                          fontSize: 24,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(width: 24),
+                                  Expanded(
+                                    flex: 3,
+                                    child: Text(
+                                      AppNumberFormatter.format(guess.amount,
+                                          maxDecimal: 6),
+                                      style: const TextStyle(
+                                        color: Color(0xff20E6E1),
+                                        fontSize: 24,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                    child: Text(
+                                      game.tokenName,
+                                      style: const TextStyle(
+                                        color: Color(0xff20E6E1),
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      context
+                                          .read<PlaceGuessBloc>()
+                                          .add(PlaceGuessDeleted(id: guess.id));
+                                    },
+                                    icon: const Icon(
+                                      FontAwesomeIcons.trashAlt,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+                SliverPadding(
+                  padding: const EdgeInsetsGeometry.symmetric(
+                      horizontal: 24, vertical: 16),
+                  sliver: SliverToBoxAdapter(
+                    child: Material(
+                      borderRadius: BorderRadius.circular(8),
+                      color: Colors.transparent,
+                      child: InkWell(
+                        borderRadius: BorderRadius.circular(8),
+                        onTap: () async {
+                          final amount =
+                              await showGussBottomSheet(context, game);
+
+                          if (amount != null && context.mounted) {
+                            context
+                                .read<PlaceGuessBloc>()
+                                .add(PlaceGuessAdded(amount: amount));
+                          }
+                        },
                         child: SizedBox(
                           width: double.infinity,
                           height: 70,
@@ -122,213 +220,125 @@ class _Body extends StatelessWidget {
                                 const SizedBox(width: 14),
                                 CircleAvatar(
                                   radius: 24,
-                                  foregroundColor: const Color(0xffFFEEB9),
+                                  foregroundColor: const Color(0xffFFDA95),
                                   backgroundColor: const Color(0xffFFDA95)
                                       .withValues(alpha: .08),
-                                  child: Center(
-                                    child: Text(
-                                      '${index + 1}',
-                                      style: const TextStyle(
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
+                                  child: const Center(
+                                    child: Icon(Icons.add),
                                   ),
                                 ),
-                                const SizedBox(width: 24),
-                                Expanded(
-                                  flex: 3,
-                                  child: Text(
-                                    AppNumberFormatter.format(guess.amount,
-                                        maxDecimal: 6),
-                                    style: const TextStyle(
-                                      color: Color(0xff20E6E1),
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.w600,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Text(
-                                    game.tokenName,
-                                    style: const TextStyle(
-                                      color: Color(0xff20E6E1),
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w500,
-                                    ),
-                                  ),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    context
-                                        .read<PlaceGuessBloc>()
-                                        .add(PlaceGuessDeleted(id: guess.id));
-                                  },
-                                  icon: const Icon(
-                                    FontAwesomeIcons.trashAlt,
+                                const SizedBox(width: 12),
+                                const Text(
+                                  'Add guess',
+                                  style: TextStyle(
                                     color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
                                   ),
-                                ),
-                                const SizedBox(width: 8),
+                                )
                               ],
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-              SliverPadding(
-                padding: const EdgeInsetsGeometry.symmetric(
-                    horizontal: 24, vertical: 16),
-                sliver: SliverToBoxAdapter(
-                  child: Material(
-                    borderRadius: BorderRadius.circular(8),
-                    color: Colors.transparent,
-                    child: InkWell(
-                      borderRadius: BorderRadius.circular(8),
-                      onTap: () async {
-                        final amount = await showGussBottomSheet(context, game);
-
-                        if (amount != null && context.mounted) {
-                          context
-                              .read<PlaceGuessBloc>()
-                              .add(PlaceGuessAdded(amount: amount));
-                        }
-                      },
-                      child: SizedBox(
-                        width: double.infinity,
-                        height: 70,
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            color:
-                                const Color(0xffFFEEB9).withValues(alpha: .08),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              const SizedBox(width: 14),
-                              CircleAvatar(
-                                radius: 24,
-                                foregroundColor: const Color(0xffFFDA95),
-                                backgroundColor: const Color(0xffFFDA95)
-                                    .withValues(alpha: .08),
-                                child: const Center(
-                                  child: Icon(Icons.add),
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              const Text(
-                                'Add guess',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              )
-                            ],
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              )
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SizedBox(
-            width: double.infinity,
-            child: Stack(
-              children: [
-                Column(
-                  children: [
-                    DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffFFDA95).withValues(alpha: .16),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Column(
-                        children: [
-                          const SizedBox(height: 24),
-                          BlocSelector<PlaceGuessBloc, PlaceGuessState, int>(
-                            selector: (state) {
-                              return state.guesses.length;
-                            },
-                            builder: (context, count) {
-                              return Column(
-                                spacing: 24,
-                                children: [
-                                  (
-                                    'Number Guess',
-                                    AppNumberFormatter.format(
-                                      count.toDouble(),
-                                      maxDecimal: 2,
-                                    )
-                                  ),
-                                  (
-                                    'Payable',
-                                    '${AppNumberFormatter.format(
-                                      count.toDouble() * 10,
-                                      maxDecimal: 2,
-                                    )} \$'
-                                  )
-                                ].map((e) {
-                                  return Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 20),
-                                    child: Row(
-                                      spacing: 16,
-                                      children: [
-                                        Text(
-                                          e.$1,
-                                          style: const TextStyle(
-                                            color: Color(0xffFFEEB9),
-                                            fontSize: 14,
-                                          ),
-                                        ),
-                                        const Expanded(
-                                          child: SizedBox(
-                                            height: 4,
-                                            child: DashedDivider(),
-                                          ),
-                                        ),
-                                        Text(
-                                          e.$2,
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 20,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  );
-                                }).toList(),
-                              );
-                            },
-                          ),
-                          const SizedBox(height: 64),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 32),
-                  ],
-                ),
-                const Positioned(
-                  bottom: 0,
-                  right: 64,
-                  left: 64,
-                  child: _PayBtn(),
-                ),
+                )
               ],
             ),
           ),
-        ),
-        const SizedBox(height: 32),
-      ],
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: SizedBox(
+              width: double.infinity,
+              child: Stack(
+                children: [
+                  Column(
+                    children: [
+                      DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: const Color(0xffFFDA95).withValues(alpha: .16),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            const SizedBox(height: 24),
+                            BlocSelector<PlaceGuessBloc, PlaceGuessState, int>(
+                              selector: (state) {
+                                return state.guesses.length;
+                              },
+                              builder: (context, count) {
+                                return Column(
+                                  spacing: 24,
+                                  children: [
+                                    (
+                                      'Number Guess',
+                                      AppNumberFormatter.format(
+                                        count.toDouble(),
+                                        maxDecimal: 2,
+                                      )
+                                    ),
+                                    (
+                                      'Payable',
+                                      '${AppNumberFormatter.format(
+                                        count.toDouble() * 10,
+                                        maxDecimal: 2,
+                                      )} \$'
+                                    )
+                                  ].map((e) {
+                                    return Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20),
+                                      child: Row(
+                                        spacing: 16,
+                                        children: [
+                                          Text(
+                                            e.$1,
+                                            style: const TextStyle(
+                                              color: Color(0xffFFEEB9),
+                                              fontSize: 14,
+                                            ),
+                                          ),
+                                          const Expanded(
+                                            child: SizedBox(
+                                              height: 4,
+                                              child: DashedDivider(),
+                                            ),
+                                          ),
+                                          Text(
+                                            e.$2,
+                                            style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 20,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }).toList(),
+                                );
+                              },
+                            ),
+                            const SizedBox(height: 64),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
+                  const Positioned(
+                    bottom: 0,
+                    right: 64,
+                    left: 64,
+                    child: _PayBtn(),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const SizedBox(height: 32),
+        ],
+      ),
     );
   }
 }
