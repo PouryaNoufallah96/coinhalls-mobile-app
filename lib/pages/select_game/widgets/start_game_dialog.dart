@@ -64,9 +64,12 @@ class _StartGameDialog extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const IconButton(
-                      onPressed: null,
-                      icon: SizedBox(),
+                    IconButton(
+                      onPressed: () => context.goNamed('home_page'),
+                      icon: const Icon(
+                        FontAwesomeIcons.xmark,
+                        color: Colors.white,
+                      ),
                     ),
                     Text(
                       game.gameName,
@@ -87,6 +90,7 @@ class _StartGameDialog extends StatelessWidget {
                 ),
                 const SizedBox(height: 36),
                 Hero(
+                  transitionOnUserGestures: true,
                   tag: game.imageUrl,
                   child: Image.network(game.imageUrl),
                 ),
