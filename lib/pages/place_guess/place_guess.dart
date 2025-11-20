@@ -77,9 +77,12 @@ class _Body extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const IconButton(
-                  onPressed: null,
-                  icon: SizedBox(),
+                IconButton(
+                  onPressed: () => context.goNamed('home_page'),
+                  icon: const Icon(
+                    FontAwesomeIcons.xmark,
+                    color: Colors.white,
+                  ),
                 ),
                 const Text(
                   'Try the guess',

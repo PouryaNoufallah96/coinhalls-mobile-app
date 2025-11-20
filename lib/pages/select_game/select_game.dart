@@ -9,6 +9,7 @@ import 'package:coin_hall/pages/select_game/widgets/start_game_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 class SelectGamePge extends StatelessWidget {
@@ -54,6 +55,7 @@ class SelectGamePge extends StatelessWidget {
                           child: CircularProgressIndicator.adaptive(),
                         ),
                       final FetchListBaseSuccess<GameData> i => _Body(
+                          token: token,
                           data: i.data,
                         ),
                       final FetchListBaseFailure<GameData> _ =>
@@ -73,9 +75,11 @@ class SelectGamePge extends StatelessWidget {
 class _Body extends HookWidget {
   const _Body({
     required this.data,
+    required this.token,
   });
 
   final List<GameData> data;
+  final String token;
 
   @override
   Widget build(BuildContext context) {
@@ -85,7 +89,35 @@ class _Body extends HookWidget {
 
     return Column(
       children: [
-        const SizedBox(height: 64),
+        const SizedBox(height: 12),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            IconButton(
+              onPressed: () => context.goNamed('home_page'),
+              icon: const Icon(
+                FontAwesomeIcons.xmark,
+                color: Colors.white,
+              ),
+            ),
+            Text(
+              data.firstOrNull?.tokenName ?? '',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+            IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(
+                FontAwesomeIcons.arrowRight,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 42),
         Stack(
           children: [
             Image.asset(
@@ -97,12 +129,16 @@ class _Body extends HookWidget {
                 children: [
                   SizedBox(height: height * .1),
                   Hero(
+                    transitionOnUserGestures: true,
                     tag: selectedItem.imageUrl,
-                    child: Image.network(
-                      selectedItem.imageUrl,
-                      height: 100,
-                      width: width * .55,
-                      fit: BoxFit.cover,
+                    child: Transform.flip(
+                      flipX: true,
+                      child: Image.network(
+                        selectedItem.imageUrl,
+                        height: 100,
+                        width: width * .55,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                   SizedBox(height: height * .03),

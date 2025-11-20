@@ -107,10 +107,7 @@ class TransactionService {
         deployedContract: AppContractAbi.appContract,
         functionName: AppContractAbi.batchSubmitGuesses.name,
         transaction: Transaction(from: addressCheckSum),
-        parameters: [
-          hexToByteArray32(reference),
-          data,
-        ],
+        parameters: [reference, data],
       );
 
       await _reownService.appKitModal.loadAccountData();
@@ -148,7 +145,7 @@ class TransactionService {
         functionName: AppContractAbi.batchUpdateGuess.name,
         transaction: Transaction(from: addressCheckSum),
         parameters: [
-          [hexToByteArray32(reference)],
+          [reference],
           [toUintScaled(amount, BigInt.from(10).pow(8))],
         ],
       );

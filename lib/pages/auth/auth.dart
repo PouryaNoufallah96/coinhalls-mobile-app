@@ -80,6 +80,7 @@ class _Body extends HookWidget {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontSize: 20,
+              color: Color(0xffFFC65E),
             ),
           ),
           const Spacer(flex: 3),
