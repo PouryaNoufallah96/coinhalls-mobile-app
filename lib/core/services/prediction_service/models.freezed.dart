@@ -33,6 +33,7 @@ mixin _$PredictionHistory {
   String get registerPayAmountInWei => throw _privateConstructorUsedError;
   PredictionState get state => throw _privateConstructorUsedError;
   bool get canEdit => throw _privateConstructorUsedError;
+  String? get gameTitle => throw _privateConstructorUsedError;
 
   /// Serializes this PredictionHistory to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -63,7 +64,8 @@ abstract class $PredictionHistoryCopyWith<$Res> {
       double registerPayAmount,
       String registerPayAmountInWei,
       PredictionState state,
-      bool canEdit});
+      bool canEdit,
+      String? gameTitle});
 }
 
 /// @nodoc
@@ -94,6 +96,7 @@ class _$PredictionHistoryCopyWithImpl<$Res, $Val extends PredictionHistory>
     Object? registerPayAmountInWei = null,
     Object? state = null,
     Object? canEdit = null,
+    Object? gameTitle = freezed,
   }) {
     return _then(_value.copyWith(
       createMoment: null == createMoment
@@ -148,6 +151,10 @@ class _$PredictionHistoryCopyWithImpl<$Res, $Val extends PredictionHistory>
           ? _value.canEdit
           : canEdit // ignore: cast_nullable_to_non_nullable
               as bool,
+      gameTitle: freezed == gameTitle
+          ? _value.gameTitle
+          : gameTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -173,7 +180,8 @@ abstract class _$$PredictionHistoryImplCopyWith<$Res>
       double registerPayAmount,
       String registerPayAmountInWei,
       PredictionState state,
-      bool canEdit});
+      bool canEdit,
+      String? gameTitle});
 }
 
 /// @nodoc
@@ -202,6 +210,7 @@ class __$$PredictionHistoryImplCopyWithImpl<$Res>
     Object? registerPayAmountInWei = null,
     Object? state = null,
     Object? canEdit = null,
+    Object? gameTitle = freezed,
   }) {
     return _then(_$PredictionHistoryImpl(
       createMoment: null == createMoment
@@ -256,6 +265,10 @@ class __$$PredictionHistoryImplCopyWithImpl<$Res>
           ? _value.canEdit
           : canEdit // ignore: cast_nullable_to_non_nullable
               as bool,
+      gameTitle: freezed == gameTitle
+          ? _value.gameTitle
+          : gameTitle // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -276,7 +289,8 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
       required this.registerPayAmount,
       required this.registerPayAmountInWei,
       required this.state,
-      required this.canEdit});
+      required this.canEdit,
+      this.gameTitle});
 
   factory _$PredictionHistoryImpl.fromJson(Map<String, dynamic> json) =>
       _$$PredictionHistoryImplFromJson(json);
@@ -307,10 +321,12 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
   final PredictionState state;
   @override
   final bool canEdit;
+  @override
+  final String? gameTitle;
 
   @override
   String toString() {
-    return 'PredictionHistory(createMoment: $createMoment, gameName: $gameName, gameEndMoment: $gameEndMoment, predictionReference: $predictionReference, gameStopMoment: $gameStopMoment, tokenSymbol: $tokenSymbol, tokenName: $tokenName, predictionTokenAmount: $predictionTokenAmount, predictionTokenAmountInWei: $predictionTokenAmountInWei, registerPayAmount: $registerPayAmount, registerPayAmountInWei: $registerPayAmountInWei, state: $state, canEdit: $canEdit)';
+    return 'PredictionHistory(createMoment: $createMoment, gameName: $gameName, gameEndMoment: $gameEndMoment, predictionReference: $predictionReference, gameStopMoment: $gameStopMoment, tokenSymbol: $tokenSymbol, tokenName: $tokenName, predictionTokenAmount: $predictionTokenAmount, predictionTokenAmountInWei: $predictionTokenAmountInWei, registerPayAmount: $registerPayAmount, registerPayAmountInWei: $registerPayAmountInWei, state: $state, canEdit: $canEdit, gameTitle: $gameTitle)';
   }
 
   @override
@@ -343,7 +359,9 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
             (identical(other.registerPayAmountInWei, registerPayAmountInWei) ||
                 other.registerPayAmountInWei == registerPayAmountInWei) &&
             (identical(other.state, state) || other.state == state) &&
-            (identical(other.canEdit, canEdit) || other.canEdit == canEdit));
+            (identical(other.canEdit, canEdit) || other.canEdit == canEdit) &&
+            (identical(other.gameTitle, gameTitle) ||
+                other.gameTitle == gameTitle));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -362,7 +380,8 @@ class _$PredictionHistoryImpl implements _PredictionHistory {
       registerPayAmount,
       registerPayAmountInWei,
       state,
-      canEdit);
+      canEdit,
+      gameTitle);
 
   /// Create a copy of PredictionHistory
   /// with the given fields replaced by the non-null parameter values.
@@ -395,7 +414,8 @@ abstract class _PredictionHistory implements PredictionHistory {
       required final double registerPayAmount,
       required final String registerPayAmountInWei,
       required final PredictionState state,
-      required final bool canEdit}) = _$PredictionHistoryImpl;
+      required final bool canEdit,
+      final String? gameTitle}) = _$PredictionHistoryImpl;
 
   factory _PredictionHistory.fromJson(Map<String, dynamic> json) =
       _$PredictionHistoryImpl.fromJson;
@@ -426,6 +446,8 @@ abstract class _PredictionHistory implements PredictionHistory {
   PredictionState get state;
   @override
   bool get canEdit;
+  @override
+  String? get gameTitle;
 
   /// Create a copy of PredictionHistory
   /// with the given fields replaced by the non-null parameter values.

@@ -64,8 +64,7 @@ class _EditGuess extends HookWidget {
 
     final value = useState<double>(0);
 
-    final PredictionHistory(:gameEndMoment, :tokenName) = data;
-    const title = '';
+    final PredictionHistory(:gameEndMoment, :tokenName, :gameTitle) = data;
     final remainingsInDays =
         DateTime.parse(gameEndMoment).difference(DateTime.now()).inDays;
 
@@ -122,7 +121,7 @@ class _EditGuess extends HookWidget {
                     ),
                     const SizedBox(height: 32),
                     Text(
-                      'How many $tokenName tokens will $title cost in the next $remainingsInDays Days?',
+                      'How many $tokenName tokens will ${gameTitle ?? ''} cost in the next $remainingsInDays Days?',
                       maxLines: 10,
                       textAlign: TextAlign.center,
                       style: const TextStyle(

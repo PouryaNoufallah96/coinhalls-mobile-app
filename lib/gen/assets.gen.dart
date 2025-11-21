@@ -162,9 +162,9 @@ class $AssetsImagesGen {
   /// File path: assets/images/animation.json
   String get animation => 'assets/images/animation.json';
 
-  /// File path: assets/images/app_icon.webp
+  /// File path: assets/images/app_icon.png
   AssetGenImage get appIcon =>
-      const AssetGenImage('assets/images/app_icon.webp');
+      const AssetGenImage('assets/images/app_icon.png');
 
   /// File path: assets/images/app_icon_ios.png
   AssetGenImage get appIconIos =>

@@ -22,6 +22,7 @@ _$PredictionHistoryImpl _$$PredictionHistoryImplFromJson(
       registerPayAmountInWei: json['registerPayAmountInWei'] as String,
       state: $enumDecode(_$PredictionStateEnumMap, json['state']),
       canEdit: json['canEdit'] as bool,
+      gameTitle: json['gameTitle'] as String?,
     );
 
 Map<String, dynamic> _$$PredictionHistoryImplToJson(
@@ -40,6 +41,7 @@ Map<String, dynamic> _$$PredictionHistoryImplToJson(
       'registerPayAmountInWei': instance.registerPayAmountInWei,
       'state': _$PredictionStateEnumMap[instance.state]!,
       'canEdit': instance.canEdit,
+      'gameTitle': instance.gameTitle,
     };
 
 const _$PredictionStateEnumMap = {

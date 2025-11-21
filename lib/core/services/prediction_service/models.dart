@@ -19,6 +19,7 @@ class PredictionHistory with _$PredictionHistory {
     required String registerPayAmountInWei,
     required PredictionState state,
     required bool canEdit,
+    String?gameTitle,
   }) = _PredictionHistory;
 
   factory PredictionHistory.fromJson(Map<String, dynamic> json) =>
