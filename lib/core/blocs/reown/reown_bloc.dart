@@ -5,6 +5,7 @@ import 'package:coin_hall/core/services/auth_interceptor/auth_interceptor.dart';
 import 'package:coin_hall/core/services/auth_service/auth_service.dart';
 import 'package:coin_hall/core/services/auth_service/models.dart';
 import 'package:coin_hall/core/services/reown/reown.dart';
+import 'package:coin_hall/core/services/socket_service/socket_service.dart';
 import 'package:coin_hall/core/utils/future_timeout.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -18,10 +19,12 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
   ReownBloc({
     required ReownService reownService,
     required AuthService authService,
+    required SocketService socketService,
     required AuthInterceptor authInterceptor,
   })  : _mainReownService = reownService,
         _authService = authService,
         _authInterceptor = authInterceptor,
+        _socketService = socketService,
         super(ReownState()) {
     on<ReownStarted>(_onReownStarted);
     on<ReownConnected>(_onReownConnected);
@@ -32,6 +35,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
   final AuthService _authService;
   final ReownService _mainReownService;
   final AuthInterceptor _authInterceptor;
+  final SocketService _socketService;
 
   late StreamSubscription<ModalConnect>? _sub;
 
@@ -236,6 +240,8 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
           unawaited(_mainReownService.appKitModal.loadAccountData());
         } catch (_) {}
 
+        await _socketService.startPrediction(state.address!);
+
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.success,
@@ -275,6 +281,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
 
       await Future<void>.delayed(const Duration(milliseconds: 500));
       _authInterceptor.setToken(token);
+      await _socketService.startPrediction(event.address);
     } catch (e) {
       emit(state.copyWith(manualLoginStatus: ManualLoginStatus.failure));
     } finally {

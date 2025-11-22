@@ -11,7 +11,7 @@ import 'package:coin_hall/injection.dart';
 import 'package:coin_hall/pages/auth/auth.dart';
 import 'package:coin_hall/pages/history/history/history.dart';
 import 'package:coin_hall/pages/home_page/home_page.dart';
-import 'package:coin_hall/pages/nested/cubit/user_stats_cubit.dart';
+import 'package:coin_hall/pages/nested/bloc/notify_prediction_bloc.dart';
 import 'package:coin_hall/pages/nested/nested.dart';
 import 'package:coin_hall/pages/place_guess/place_guess.dart';
 import 'package:coin_hall/pages/select_game/select_game.dart';
@@ -89,6 +89,7 @@ class AutoShieldAppState extends State<AutoShieldApp> with AutoShieldAppRouter {
                           authInterceptor: context.read(),
                           authService: context.read(),
                           reownService: context.read(),
+                          socketService: context.read(),
                         )..add(ReownStarted()),
                         child: child,
                       );

@@ -49,7 +49,7 @@ class EditGuessBloc extends Bloc<EditGuessEvent, EditGuessState> {
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.success,
-          title: const Text('Success'),
+          title: const Text('Guess was updated.'),
           borderRadius: BorderRadius.circular(6),
           autoCloseDuration: const Duration(seconds: 4),
         );

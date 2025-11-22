@@ -4,6 +4,7 @@ import 'package:coin_hall/core/services/prediction_service/models.dart';
 import 'package:coin_hall/pages/history/active_history/cubit/active_history_cubit.dart';
 import 'package:coin_hall/pages/history/widgets/history_item.dart';
 import 'package:coin_hall/pages/history/widgets/history_symbol_filter.dart';
+import 'package:coin_hall/pages/nested/bloc/notify_prediction_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -74,76 +75,85 @@ class _Body extends HookWidget {
       context.read<ActiveHistoryCubit>().fetchMore();
     });
 
-    return RefreshIndicator(
-      onRefresh: () => context.read<ActiveHistoryCubit>().fetch(),
-      child: CustomScrollView(
-        physics: const AlwaysScrollableScrollPhysics(),
-        controller: scrollController,
-        slivers: <Widget>[
-          if (orders.isEmpty)
-            const SliverFillRemaining(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 12,
-                children: [
-                  Icon(
-                    Icons.hourglass_empty_rounded,
-                    size: 28,
-                    color: Colors.white,
-                  ),
-                  Text(
-                    'No data',
-                    style: TextStyle(
+    return BlocListener<NotifyPredictionBloc, NotifyPredictionState>(
+      listenWhen: (previous, current) {
+        return previous.lastUpdateTime != current.lastUpdateTime;
+      },
+      listener: (context, state) {
+        context.read<ActiveHistoryCubit>().fetch();
+      },
+      child: RefreshIndicator(
+        onRefresh: () => context.read<ActiveHistoryCubit>().fetch(),
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          controller: scrollController,
+          slivers: <Widget>[
+            if (orders.isEmpty)
+              const SliverFillRemaining(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 12,
+                  children: [
+                    Icon(
+                      Icons.hourglass_empty_rounded,
+                      size: 28,
                       color: Colors.white,
                     ),
-                  ),
-                ],
-              ),
-            )
-          else ...[
-            SliverList.separated(
-              separatorBuilder: (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: SizedBox(height: 16),
-                );
-              },
-              itemCount: orders.length,
-              itemBuilder: (context, index) {
-                final order = orders[index];
-
-                return Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                  child: HistoryItem(
-                    item: order,
-                    onRefresh: () => context.read<ActiveHistoryCubit>().fetch(),
-                  ),
-                );
-              },
-            ),
-            SliverToBoxAdapter(
-              child: BlocSelector<ActiveHistoryCubit,
-                  FetchListBaseState<PredictionHistory>, bool>(
-                selector: (state) {
-                  return (state as FetchListBaseSuccess).isFetchingMore;
-                },
-                builder: (context, state) {
-                  if (!state) {
-                    return const SizedBox.shrink();
-                  }
-
+                    Text(
+                      'No data',
+                      style: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            else ...[
+              SliverList.separated(
+                separatorBuilder: (context, index) {
                   return const Padding(
-                    padding: EdgeInsets.all(24),
-                    child: Center(
-                      child: CircularProgressIndicator(),
+                    padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    child: SizedBox(height: 16),
+                  );
+                },
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
+                    child: HistoryItem(
+                      item: order,
+                      onRefresh: () =>
+                          context.read<ActiveHistoryCubit>().fetch(),
                     ),
                   );
                 },
               ),
-            ),
-            const SliverToBoxAdapter(child: SizedBox(height: 100)),
+              SliverToBoxAdapter(
+                child: BlocSelector<ActiveHistoryCubit,
+                    FetchListBaseState<PredictionHistory>, bool>(
+                  selector: (state) {
+                    return (state as FetchListBaseSuccess).isFetchingMore;
+                  },
+                  builder: (context, state) {
+                    if (!state) {
+                      return const SizedBox.shrink();
+                    }
+
+                    return const Padding(
+                      padding: EdgeInsets.all(24),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SliverToBoxAdapter(child: SizedBox(height: 100)),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }

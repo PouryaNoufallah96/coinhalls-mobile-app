@@ -130,7 +130,7 @@ class PlaceGuessBloc extends Bloc<PlaceGuessEvent, PlaceGuessState> {
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.success,
-          title: const Text('Success'),
+          title: const Text('Guesses are submitted!'),
           borderRadius: BorderRadius.circular(6),
           autoCloseDuration: const Duration(seconds: 4),
         );

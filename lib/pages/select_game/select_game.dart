@@ -137,7 +137,7 @@ class _Body extends HookWidget {
                         selectedItem.imageUrl,
                         height: 100,
                         width: width * .55,
-                        fit: BoxFit.cover,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),

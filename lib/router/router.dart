@@ -45,6 +45,12 @@ mixin AutoShieldAppRouter on State<AutoShieldApp> {
                       ..fetch();
                   },
                 ),
+                BlocProvider(
+                  create: (context) {
+                    return NotifyPredictionBloc(socketService: context.read())
+                      ..add(const NotifyPredictionEvent.started());
+                  },
+                ),
               ],
               child: StreamBuilder(
                   stream: context

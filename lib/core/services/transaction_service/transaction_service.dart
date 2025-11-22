@@ -107,7 +107,7 @@ class TransactionService {
         deployedContract: AppContractAbi.appContract,
         functionName: AppContractAbi.batchSubmitGuesses.name,
         transaction: Transaction(from: addressCheckSum),
-        parameters: [reference, data],
+        parameters: [hexToByteArray32(reference), data],
       );
 
       await _reownService.appKitModal.loadAccountData();
@@ -145,7 +145,7 @@ class TransactionService {
         functionName: AppContractAbi.batchUpdateGuess.name,
         transaction: Transaction(from: addressCheckSum),
         parameters: [
-          [reference],
+          [hexToByteArray32(reference)],
           [toUintScaled(amount, BigInt.from(10).pow(8))],
         ],
       );
@@ -193,20 +193,24 @@ class TransactionService {
     if (hex.isEmpty) {
       throw ArgumentError('Hex string is null or empty');
     }
+    return _hexToBytes(hex);
+  }
 
+  Uint8List _hexToBytes(String hex) {
     var clean = hex.startsWith('0x') ? hex.substring(2) : hex;
 
     if (clean.length.isOdd) {
       clean = '0$clean';
     }
 
-    final bytes = Uint8List.fromList(hexToBytes(clean));
+    final length = clean.length ~/ 2;
+    final result = Uint8List(length);
 
-    if (bytes.length > 32) {
-      throw ArgumentError('Hex string is too long for bytes32');
+    for (var i = 0; i < length; i++) {
+      final byte = clean.substring(i * 2, i * 2 + 2);
+      result[i] = int.parse(byte, radix: 16);
     }
 
-    final out = Uint8List(32)..setRange(32 - bytes.length, 32, bytes);
-    return out;
+    return result;
   }
 }

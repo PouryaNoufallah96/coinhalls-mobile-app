@@ -37,9 +37,16 @@ class _GuessSheet extends HookWidget {
   Widget build(BuildContext context) {
     final value = useState<double>(0);
 
-    final GameData(:endTime, :title, :tokenName) = data;
-    final remainingsInDays =
-        DateTime.parse(endTime).difference(DateTime.now()).inDays;
+    final GameData(:stopTime, :title, :tokenName) = data;
+
+    final remainingsInMinute =
+        DateTime.parse('${stopTime}Z').difference(DateTime.now()).inMinutes;
+
+    final x = switch (remainingsInMinute.abs()) {
+      >= 60 * 24 => '${(remainingsInMinute ~/ (60 * 24)).abs()} Days',
+      >= 60 => '${(remainingsInMinute ~/ 60).abs()} Hours',
+      _ => '$remainingsInMinute Minutes',
+    };
 
     return SingleChildScrollView(
       child: Padding(
@@ -84,7 +91,7 @@ class _GuessSheet extends HookWidget {
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'How many $tokenName tokens will $title cost in the next $remainingsInDays Days?',
+                    'How many $tokenName tokens will $title cost in the next $x',
                     maxLines: 10,
                     textAlign: TextAlign.center,
                     style: const TextStyle(

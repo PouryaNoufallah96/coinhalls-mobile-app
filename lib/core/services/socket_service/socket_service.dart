@@ -29,17 +29,17 @@ class SocketService {
   }) : _authInterceptor = authInterceptor;
   static const String _baseUrl = 'https://api.coinhalls.com';
   static const String _pricesHubPath = '/hubs/prices';
-  static const String _shieldHubPath = '/hubs/NotifyShield';
+  static const String _predictionHubPath = '/hubs/predictions';
   static const String _inventoriesHubPath = '/hubs/NotifyInventories';
 
   static const String _methodNotifyPrices = 'NotifyPrice';
-  static const String _methodShieldMessage = 'ShieldMessage';
+  static const String _methodPredictionMessage = 'predictionMessage';
   static const String _methodInventoryMessage = 'NotifyInventory';
 
   final AuthInterceptor _authInterceptor;
 
   HubConnection? _pricesConn;
-  HubConnection? _shieldConn;
+  HubConnection? _predictionConn;
   HubConnection? _inventoryConn;
 
   bool _pricesStarted = false;
@@ -48,7 +48,7 @@ class SocketService {
   String? _address;
 
   final Set<String> _pricesHandlers = {_methodNotifyPrices};
-  final Set<String> _shieldHandlers = {_methodShieldMessage};
+  final Set<String> _shieldHandlers = {_methodPredictionMessage};
   final Set<String> _inventoryHandlers = {_methodInventoryMessage};
 
   final _controller = StreamController<HubEvent>.broadcast();
@@ -137,49 +137,49 @@ class SocketService {
     } on HttpError catch (_) {}
   }
 
-  Future<void> startSheild(String address) async {
-    await disconnectShield();
+  Future<void> startPrediction(String address) async {
+    await disconnectPrediction();
 
     _address = address;
-    _shieldConn = await _buildConnection(_shieldHubPath);
+    _predictionConn = await _buildConnection(_predictionHubPath);
 
-    _shieldConn!.on(_methodShieldMessage, (args) {
+    _predictionConn!.on(_methodPredictionMessage, (args) {
       _controller.add(HubEvent(
-        name: _methodShieldMessage,
+        name: _methodPredictionMessage,
         data: _normalizeArgs(args),
       ));
     });
 
     _wireLifecycle(
-      _shieldConn!,
+      _predictionConn!,
       onReconnected: _invokeRegisterWalletIfReady,
     );
 
     try {
-      await _shieldConn!.start();
+      await _predictionConn!.start();
       _shieldStarted = true;
     } on HttpError catch (_) {}
 
     await _invokeRegisterWalletIfReady();
   }
 
-  Future<void> disconnectShield() async {
+  Future<void> disconnectPrediction() async {
     try {
-      if (_shieldConn != null) {
+      if (_predictionConn != null) {
         for (final m in _shieldHandlers) {
-          _shieldConn!.off(m);
+          _predictionConn!.off(m);
         }
       }
     } catch (_) {}
 
     try {
       if (_shieldStarted) {
-        await _shieldConn?.stop();
+        await _predictionConn?.stop();
       }
     } catch (_) {}
 
     _shieldStarted = false;
-    _shieldConn = null;
+    _predictionConn = null;
   }
 
   Future<HubConnection> _buildConnection(String hubPath) async {
@@ -225,9 +225,9 @@ class SocketService {
   }
 
   Future<void> _invokeRegisterWalletIfReady() async {
-    if (_shieldConn == null || _address == null) return;
+    if (_predictionConn == null || _address == null) return;
     try {
-      await _shieldConn!.invoke('RegisterWallet', args: ['$_address']);
+      await _predictionConn!.invoke('RegisterWallet', args: ['$_address']);
     } catch (_) {}
   }
 

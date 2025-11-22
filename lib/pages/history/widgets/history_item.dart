@@ -135,7 +135,8 @@ class HistoryItem extends HookWidget {
                 child: item.state == PredictionState.active
                     ? _Timer(
                         key: key,
-                        remaining: DateTime.parse(item.gameEndMoment)
+                        remaining: DateTime.parse('${item.gameEndMoment}Z')
+                            .toLocal()
                             .difference(DateTime.now()))
                     : Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,

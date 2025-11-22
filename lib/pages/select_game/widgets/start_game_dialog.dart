@@ -53,6 +53,7 @@ class _StartGameDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isGameActive = game.state == GameDataState.active;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
@@ -92,7 +93,10 @@ class _StartGameDialog extends StatelessWidget {
                 Hero(
                   transitionOnUserGestures: true,
                   tag: game.imageUrl,
-                  child: Image.network(game.imageUrl),
+                  child: Image.network(
+                    game.imageUrl,
+                    fit: BoxFit.fill,
+                  ),
                 ),
                 const SizedBox(height: 34),
                 Center(
@@ -267,10 +271,8 @@ class _StartGameDialog extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 24),
             child: AppButton(
-              onPressed: () {
-                context.pop(game);
-              },
-              text: 'Try the guess',
+              onPressed: !isGameActive ? null : () => context.pop(game),
+              text: !isGameActive ? 'Expired' : 'Try the guess',
             ),
           )
         ],
