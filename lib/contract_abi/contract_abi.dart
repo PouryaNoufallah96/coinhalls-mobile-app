@@ -41,7 +41,7 @@ class AppContractAbi {
       'inputs': [
         {'name': 'gameId', 'type': 'bytes32', 'internalType': 'bytes32'},
         {
-          'name': 'predictedPrices',
+          'name': 'predictedAmounts',
           'type': 'uint256[]',
           'internalType': 'uint256[]'
         }
@@ -55,7 +55,7 @@ class AppContractAbi {
       'inputs': [
         {'name': 'guessIds', 'type': 'bytes32[]', 'internalType': 'bytes32[]'},
         {
-          'name': 'newPredictedPrices',
+          'name': 'newPredictedAmounts',
           'type': 'uint256[]',
           'internalType': 'uint256[]'
         }
@@ -85,7 +85,11 @@ class AppContractAbi {
       'name': 'submitGuess',
       'inputs': [
         {'name': 'gameId', 'type': 'bytes32', 'internalType': 'bytes32'},
-        {'name': 'predictedPrice', 'type': 'uint256', 'internalType': 'uint256'}
+        {
+          'name': 'predictedAmount',
+          'type': 'uint256',
+          'internalType': 'uint256'
+        }
       ],
       'outputs': [],
       'stateMutability': 'nonpayable'
@@ -126,7 +130,13 @@ class AppContractAbi {
           'internalType': 'bytes32'
         },
         {
-          'name': 'finalPrice',
+          'name': 'finalTokenPrice',
+          'type': 'uint256',
+          'indexed': false,
+          'internalType': 'uint256'
+        },
+        {
+          'name': 'finalPrizeValue',
           'type': 'uint256',
           'indexed': false,
           'internalType': 'uint256'
@@ -163,7 +173,7 @@ class AppContractAbi {
           'internalType': 'address'
         },
         {
-          'name': 'predictedPrice',
+          'name': 'predictedAmount',
           'type': 'uint256',
           'indexed': false,
           'internalType': 'uint256'
@@ -194,7 +204,7 @@ class AppContractAbi {
           'internalType': 'address'
         },
         {
-          'name': 'newPredictedPrice',
+          'name': 'newPredictedAmount',
           'type': 'uint256',
           'indexed': false,
           'internalType': 'uint256'
