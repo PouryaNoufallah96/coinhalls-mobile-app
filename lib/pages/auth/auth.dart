@@ -1,6 +1,5 @@
 import 'package:coin_hall/components/app_button.dart';
 import 'package:coin_hall/components/app_scaffold.dart';
-import 'package:coin_hall/components/app_un_focuser.dart';
 import 'package:coin_hall/core/blocs/reown/reown_bloc.dart';
 import 'package:coin_hall/pages/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -65,82 +64,80 @@ class _Body extends HookWidget {
   Widget build(BuildContext context) {
     final message = useState('');
 
-    return AppUnFocuser(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 64),
-        child: Column(
-          children: [
-            const Spacer(flex: 3),
-            Image.asset(
-              'assets/images/coin_hall_font.png',
-              height: 40,
-              width: 184,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 64),
+      child: Column(
+        children: [
+          const Spacer(flex: 3),
+          Image.asset(
+            'assets/images/coin_hall_font.png',
+            height: 40,
+            width: 184,
+          ),
+          const SizedBox(height: 32),
+          const Text(
+            'Where fortune favors the bold',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 20,
+              color: Color(0xffFFC65E),
             ),
-            const SizedBox(height: 32),
-            const Text(
-              'Where fortune favors the bold',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 20,
-                color: Color(0xffFFC65E),
+          ),
+          const Spacer(flex: 3),
+          Column(
+            spacing: 8,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                'Wallet Address',
+                style: TextStyle(
+                  color: Color(0xffFFEEB9),
+                ),
               ),
-            ),
-            const Spacer(flex: 3),
-            Column(
-              spacing: 8,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Wallet Address',
-                  style: TextStyle(
-                    color: Color(0xffFFEEB9),
+              Padding(
+                padding: EdgeInsets.only(
+                    bottom: MediaQuery.viewInsetsOf(context).bottom * .5),
+                child: TextFormField(
+                  onChanged: (value) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      message.value = value;
+                    });
+                  },
+                  style: const TextStyle(
+                    color: Colors.white,
                   ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      bottom: MediaQuery.viewInsetsOf(context).bottom * .5),
-                  child: TextFormField(
-                    onChanged: (value) {
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        message.value = value;
-                      });
-                    },
-                    style: const TextStyle(
-                      color: Colors.white,
-                    ),
-                    decoration: const InputDecoration(
-                      hintText: 'Wallet Address',
-                      hintStyle: TextStyle(
-                        color: Color(0xffA5A4A2),
-                      ),
+                  decoration: const InputDecoration(
+                    hintText: 'Wallet Address',
+                    hintStyle: TextStyle(
+                      color: Color(0xffA5A4A2),
                     ),
                   ),
                 ),
-              ],
-            ),
-            const Spacer(flex: 3),
-            BlocSelector<ReownBloc, ReownState, bool>(
-              selector: (state) =>
-                  state.manualLoginStatus == ManualLoginStatus.inLoading,
-              builder: (context, inLoading) {
-                return AppButton(
-                  isLoading: inLoading,
-                  text: 'Start',
-                  onPressed: inLoading || message.value.isEmpty
-                      ? null
-                      : () {
-                          context
-                              .read<ReownBloc>()
-                              .add(ReownAddressLogginButtonPressed(
-                                address: message.value,
-                              ));
-                        },
-                );
-              },
-            ),
-            const Spacer(),
-          ],
-        ),
+              ),
+            ],
+          ),
+          const Spacer(flex: 3),
+          BlocSelector<ReownBloc, ReownState, bool>(
+            selector: (state) =>
+                state.manualLoginStatus == ManualLoginStatus.inLoading,
+            builder: (context, inLoading) {
+              return AppButton(
+                isLoading: inLoading,
+                text: 'Start',
+                onPressed: inLoading || message.value.isEmpty
+                    ? null
+                    : () {
+                        context
+                            .read<ReownBloc>()
+                            .add(ReownAddressLogginButtonPressed(
+                              address: message.value,
+                            ));
+                      },
+              );
+            },
+          ),
+          const Spacer(),
+        ],
       ),
     );
   }

@@ -190,7 +190,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
 
       if (signature is String) {
         _authInterceptor.setSignature(signature);
-        add(ReownLogginButtonPressed());
+        add(ReownLogginButtonPressed(onSuccess: event.onSuccess));
       }
     } catch (_) {}
   }
@@ -211,6 +211,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
         add(
           ReownConnected(
             event: ModalConnect(_mainReownService.appKitModal.session!),
+            onSuccess: event.onSuccess,
           ),
         );
       }
@@ -241,7 +242,8 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
         } catch (_) {}
 
         await _socketService.startPrediction(state.address!);
-
+        print(event.onSuccess);
+        event.onSuccess?.call();
         toastification.show(
           style: ToastificationStyle.fillColored,
           type: ToastificationType.success,

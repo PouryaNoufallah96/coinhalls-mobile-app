@@ -199,7 +199,13 @@ class _EditGuess extends HookWidget {
                                     } else {
                                       context
                                           .read<ReownBloc>()
-                                          .add(ReownLogginButtonPressed());
+                                          .add(ReownLogginButtonPressed(
+                                        onSuccess: () {
+                                          context.read<EditGuessBloc>().add(
+                                              EditGuessPayed(
+                                                  amount: value.value));
+                                        },
+                                      ));
                                     }
 
                                     return;

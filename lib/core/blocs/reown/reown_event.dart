@@ -8,12 +8,16 @@ class ReownStarted extends ReownEvent {
 }
 
 class ReownConnected extends ReownEvent {
-  ReownConnected({required this.event});
+  ReownConnected({
+    required this.event,
+    this.onSuccess,
+  });
 
   final ModalConnect event;
+  final void Function()? onSuccess;
 
   @override
-  List<Object?> get props => [event];
+  List<Object?> get props => [event, onSuccess];
 }
 
 class ReownDisconnected extends ReownEvent {
@@ -24,8 +28,12 @@ class ReownDisconnected extends ReownEvent {
 }
 
 class ReownLogginButtonPressed extends ReownEvent {
+  ReownLogginButtonPressed({this.onSuccess});
+
+  final void Function()? onSuccess;
+
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [onSuccess];
 }
 
 class ReownAddressLogginButtonPressed extends ReownEvent {

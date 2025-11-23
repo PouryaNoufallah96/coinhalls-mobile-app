@@ -95,7 +95,8 @@ class _StartGameDialog extends StatelessWidget {
                   tag: game.imageUrl,
                   child: Image.network(
                     game.imageUrl,
-                    fit: BoxFit.fill,
+                    fit: BoxFit.contain,
+                    height: MediaQuery.sizeOf(context).width * .4,
                   ),
                 ),
                 const SizedBox(height: 34),

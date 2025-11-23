@@ -12,6 +12,7 @@ import 'package:coin_hall/pages/place_guess/bloc/place_guess_bloc.dart';
 import 'package:coin_hall/pages/place_guess/widgets/guess_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:go_router/go_router.dart';
 import 'package:toastification/toastification.dart';
@@ -147,26 +148,22 @@ class _Body extends StatelessWidget {
                                     ),
                                   ),
                                   const SizedBox(width: 24),
-                                  Expanded(
-                                    flex: 3,
-                                    child: Text(
-                                      AppNumberFormatter.format(guess.amount,
-                                          maxDecimal: 6),
-                                      style: const TextStyle(
-                                        color: Color(0xff20E6E1),
-                                        fontSize: 24,
-                                        fontWeight: FontWeight.w600,
-                                      ),
+                                  Text(
+                                    AppNumberFormatter.format(guess.amount,
+                                        maxDecimal: 6),
+                                    style: const TextStyle(
+                                      color: Color(0xff20E6E1),
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                  Expanded(
-                                    child: Text(
-                                      game.tokenName,
-                                      style: const TextStyle(
-                                        color: Color(0xff20E6E1),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                  const Spacer(),
+                                  Text(
+                                    game.tokenName.replaceAll(' Token', ''),
+                                    style: const TextStyle(
+                                      color: Color(0xff20E6E1),
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   IconButton(
@@ -346,7 +343,7 @@ class _Body extends StatelessWidget {
   }
 }
 
-class _PayBtn extends StatelessWidget {
+class _PayBtn extends HookWidget {
   const _PayBtn();
 
   @override
@@ -399,7 +396,13 @@ class _PayBtn extends StatelessWidget {
                         } else {
                           context
                               .read<ReownBloc>()
-                              .add(ReownLogginButtonPressed());
+                              .add(ReownLogginButtonPressed(
+                            onSuccess: () {
+                              context
+                                  .read<PlaceGuessBloc>()
+                                  .add(PlaceGuessPayed());
+                            },
+                          ));
                         }
 
                         return;

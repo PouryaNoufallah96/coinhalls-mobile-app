@@ -29,7 +29,10 @@ class HomePage extends HookWidget {
           SliverToBoxAdapter(
             child: _Header(),
           ),
-          GameCategories(),
+          SliverPadding(
+            padding: EdgeInsetsGeometry.only(bottom: 164),
+            sliver: GameCategories(),
+          )
         ],
       ),
     );
