@@ -42,7 +42,7 @@ class _GuessSheet extends HookWidget {
     final remainingsInMinute =
         DateTime.parse('${stopTime}Z').difference(DateTime.now()).inMinutes;
 
-    final x = switch (remainingsInMinute.abs()) {
+    final time = switch (remainingsInMinute.abs()) {
       >= 60 * 24 => '${(remainingsInMinute ~/ (60 * 24)).abs()} Days',
       >= 60 => '${(remainingsInMinute ~/ 60).abs()} Hours',
       _ => '$remainingsInMinute Minutes',
@@ -91,7 +91,7 @@ class _GuessSheet extends HookWidget {
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'How many $tokenName tokens will $title cost in the next $x',
+                    'How many $tokenName tokens will $title cost in the next $time?',
                     maxLines: 10,
                     textAlign: TextAlign.center,
                     style: const TextStyle(
