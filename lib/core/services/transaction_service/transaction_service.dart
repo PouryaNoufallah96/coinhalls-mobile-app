@@ -146,7 +146,7 @@ class TransactionService {
         transaction: Transaction(from: addressCheckSum),
         parameters: [
           [hexToByteArray32(reference)],
-          [toUintScaled(amount, BigInt.from(10).pow(8))],
+          [toUintScaled(amount, BigInt.from(10).pow(18))],
         ],
       );
 
