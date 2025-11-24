@@ -29,12 +29,17 @@ class NotifyPredictionBloc
       await Future<void>.delayed(const Duration(milliseconds: 800));
       final data = event.data as String?;
 
+      if (data == null) {
+        return;
+      }
+
       toastification.show(
         style: ToastificationStyle.fillColored,
-        type: (data?.toLowerCase().contains('success') ?? false)
-            ? ToastificationType.success
-            : ToastificationType.error,
-        title: mt.Text(data ?? ''),
+        type: data.toLowerCase().contains('error') ||
+                data.toLowerCase().contains('fail')
+            ? ToastificationType.error
+            : ToastificationType.success,
+        title: mt.Text(data),
         borderRadius: mt.BorderRadius.circular(6),
         autoCloseDuration: const Duration(seconds: 4),
       );
