@@ -197,6 +197,24 @@ class _Body extends StatelessWidget {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(8),
                         onTap: () async {
+                          final remainingsInMinute =
+                              DateTime.parse('${game.stopTime}Z')
+                                  .difference(DateTime.now())
+                                  .inMinutes;
+
+                          if (remainingsInMinute <= 0) {
+                            toastification.show(
+                              style: ToastificationStyle.fillColored,
+                              type: ToastificationType.error,
+                              title: const Text(
+                                  // ignore: lines_longer_than_80_chars
+                                  'Predictions are closed for this game. The game has already ended.'),
+                              borderRadius: BorderRadius.circular(6),
+                              autoCloseDuration: const Duration(seconds: 4),
+                            );
+                            return;
+                          }
+
                           final amount =
                               await showGussBottomSheet(context, game);
 
