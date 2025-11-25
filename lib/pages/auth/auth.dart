@@ -1,7 +1,9 @@
 import 'package:coin_hall/components/app_button.dart';
 import 'package:coin_hall/components/app_scaffold.dart';
+import 'package:coin_hall/core/blocs/preferences_bloc/preferences_bloc.dart';
 import 'package:coin_hall/core/blocs/reown/reown_bloc.dart';
 import 'package:coin_hall/pages/splash/splash.dart';
+import 'package:coin_hall/pages/terms/terms.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -126,7 +128,31 @@ class _Body extends HookWidget {
                 text: 'Start',
                 onPressed: inLoading || message.value.isEmpty
                     ? null
-                    : () {
+                    : () async {
+                        final isTermsAccepted = context
+                            .read<PreferencesBloc>()
+                            .state
+                            .isTermsAccepted;
+
+                        if (!isTermsAccepted) {
+                          final res = await Navigator.push(
+                              context,
+                              MaterialPageRoute<bool>(
+                                fullscreenDialog: true,
+                                builder: (context) {
+                                  return const TermsScreen();
+                                },
+                              ));
+
+                          if (res == null || !res) {
+                            return;
+                          }
+                        }
+
+                        if (!context.mounted) {
+                          return;
+                        }
+
                         context
                             .read<ReownBloc>()
                             .add(ReownAddressLogginButtonPressed(
