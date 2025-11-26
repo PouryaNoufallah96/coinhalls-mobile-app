@@ -1,4 +1,3 @@
-import 'package:coin_hall/core/env.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'models.freezed.dart';
@@ -42,7 +41,7 @@ class GameData with _$GameData {
 
 extension GameDataX on GameData {
   String get imageUrl {
-    return '${Env.apiEndPoint}File/DownloadFile/$attachmentUrl';
+    return 'assets/images/${tokenSymbol.toLowerCase()}_game.png';
   }
 }
 

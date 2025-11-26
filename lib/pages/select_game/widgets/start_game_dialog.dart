@@ -93,10 +93,19 @@ class _StartGameDialog extends StatelessWidget {
                 Hero(
                   transitionOnUserGestures: true,
                   tag: game.imageUrl,
-                  child: Image.network(
-                    game.imageUrl,
-                    fit: BoxFit.contain,
-                    height: MediaQuery.sizeOf(context).width * .4,
+                  child: Transform.scale(
+                    scale: switch (game.tokenSymbol.toLowerCase()) {
+                      'jewelry' => 1.3,
+                      'trip' => 1.3,
+                      'realestate' => 1.2,
+                      'industrial' => 1.5,
+                      _ => 1,
+                    },
+                    child: Image.asset(
+                      game.imageUrl,
+                      fit: BoxFit.contain,
+                      height: MediaQuery.sizeOf(context).width * .4,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 34),

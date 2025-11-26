@@ -131,17 +131,25 @@ class _Body extends HookWidget {
                   Hero(
                     transitionOnUserGestures: true,
                     tag: selectedItem.imageUrl,
-                    child: Transform.flip(
-                      flipX: true,
-                      child: Image.network(
-                        selectedItem.imageUrl,
-                        height: 100,
-                        width: width * .55,
-                        fit: BoxFit.contain,
+                    child: Transform.scale(
+                      scale: switch (selectedItem.tokenSymbol.toLowerCase()) {
+                        'jewelry' => 1.34,
+                        'trip' => 1.3,
+                        'realestate' => 1.3,
+                        'industrial' => 1.7,
+                        _ => 1.5,
+                      },
+                      child: Transform.flip(
+                        flipX: true,
+                        child: Image.asset(
+                          selectedItem.imageUrl,
+                          height: width * .3,
+                          width: width * .4,
+                        ),
                       ),
                     ),
                   ),
-                  SizedBox(height: height * .03),
+                  SizedBox(height: height * .04),
                   SizedBox(
                     width: width * .55,
                     child: DecoratedBox(
@@ -151,7 +159,7 @@ class _Body extends HookWidget {
                       ),
                       child: Padding(
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 34),
+                            horizontal: 12, vertical: 16),
                         child: Column(
                           children: [
                             Text(

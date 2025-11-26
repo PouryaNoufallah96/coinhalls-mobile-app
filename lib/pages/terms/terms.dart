@@ -29,6 +29,7 @@ class TermsScreen extends StatelessWidget {
             ),
           ),
           Positioned.fill(
+            top: 32,
             right: 32,
             left: 32,
             child: Image.asset(
@@ -36,6 +37,7 @@ class TermsScreen extends StatelessWidget {
             ),
           ),
           Positioned.fill(
+            top: 32,
             right: 32,
             left: 32,
             child: Image.asset(
@@ -51,21 +53,21 @@ class TermsScreen extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(
+          const Positioned(
             left: 20,
             right: 20,
             top: 48,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const IconButton(
+                IconButton(
                   onPressed: null,
                   icon: Icon(
                     FontAwesomeIcons.xmark,
                     color: Colors.transparent,
                   ),
                 ),
-                const Text(
+                Text(
                   'Terms of Use',
                   style: TextStyle(
                     color: Colors.white,
@@ -74,10 +76,10 @@ class TermsScreen extends StatelessWidget {
                   ),
                 ),
                 IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(
-                    FontAwesomeIcons.arrowRight,
-                    color: Colors.white,
+                  onPressed: null,
+                  icon: Icon(
+                    FontAwesomeIcons.xmark,
+                    color: Colors.transparent,
                   ),
                 ),
               ],
@@ -121,21 +123,27 @@ class _Body extends HookWidget {
             padding: const EdgeInsets.symmetric(horizontal: 35),
             child: Row(
               children: [
-                Checkbox.adaptive(
-                  side: const BorderSide(color: Colors.white),
-                  activeColor: const Color(0xff34BEBA),
-                  value: isAccepted.value,
-                  onChanged: (value) {
-                    isAccepted.value = value!;
-                  },
+                IntrinsicHeight(
+                  child: Checkbox(
+                    side: const BorderSide(color: Colors.white),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadiusGeometry.circular(4.8)),
+                    activeColor: const Color(0xff34BEBA),
+                    value: isAccepted.value,
+                    onChanged: (value) {
+                      isAccepted.value = value!;
+                    },
+                  ),
                 ),
-                const Text(
-                  'I agree to the Terms of Use',
-                  style: TextStyle(
-                    fontFamily: 'CentraNo1-Book',
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400,
-                    color: Colors.white,
+                const IntrinsicHeight(
+                  child: Text(
+                    'I agree to the Terms of Use',
+                    style: TextStyle(
+                      fontFamily: 'CentraNo1-Book',
+                      fontSize: 16,
+                      fontWeight: FontWeight.w400,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ],

@@ -66,6 +66,32 @@ class _Body extends HookWidget {
   Widget build(BuildContext context) {
     final message = useState('');
 
+    useEffect(() {
+      WidgetsBinding.instance.addPostFrameCallback((_) async {
+        final isTermsAccepted =
+            context.read<PreferencesBloc>().state.isTermsAccepted;
+
+        if (!isTermsAccepted) {
+          final res = await Navigator.push(
+              context,
+              MaterialPageRoute<bool>(
+                fullscreenDialog: true,
+                builder: (context) {
+                  return const PopScope(
+                    canPop: false,
+                    child: TermsScreen(),
+                  );
+                },
+              ));
+
+          if (res == null || !res) {
+            return;
+          }
+        }
+      });
+      return null;
+    }, []);
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 64),
       child: Column(
