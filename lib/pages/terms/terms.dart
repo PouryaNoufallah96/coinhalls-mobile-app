@@ -62,7 +62,7 @@ class TermsScreen extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: null,
-                  icon: Icon(
+                  icon: FaIcon(
                     FontAwesomeIcons.xmark,
                     color: Colors.transparent,
                   ),
@@ -77,7 +77,7 @@ class TermsScreen extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: null,
-                  icon: Icon(
+                  icon: FaIcon(
                     FontAwesomeIcons.xmark,
                     color: Colors.transparent,
                   ),

@@ -133,7 +133,7 @@ class CategoryCard extends StatelessWidget {
                                   children: [
                                     Transform.rotate(
                                       angle: -(pi / 4),
-                                      child: const Icon(
+                                      child: const FaIcon(
                                         FontAwesomeIcons.arrowRightLong,
                                         size: 24,
                                         color: Color(0xff34BEBA),
