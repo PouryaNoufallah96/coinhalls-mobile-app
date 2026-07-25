@@ -80,7 +80,7 @@ class _Body extends StatelessWidget {
               children: [
                 IconButton(
                   onPressed: () => context.goNamed('home_page'),
-                  icon: const Icon(
+                  icon: const FaIcon(
                     FontAwesomeIcons.xmark,
                     color: Colors.white,
                   ),
@@ -95,7 +95,7 @@ class _Body extends StatelessWidget {
                 ),
                 IconButton(
                   onPressed: () => context.pop(),
-                  icon: const Icon(
+                  icon: const FaIcon(
                     FontAwesomeIcons.arrowRight,
                     color: Colors.white,
                   ),
@@ -172,7 +172,7 @@ class _Body extends StatelessWidget {
                                           .read<PlaceGuessBloc>()
                                           .add(PlaceGuessDeleted(id: guess.id));
                                     },
-                                    icon: const Icon(
+                                    icon: const FaIcon(
                                       FontAwesomeIcons.trashAlt,
                                       color: Colors.white,
                                     ),

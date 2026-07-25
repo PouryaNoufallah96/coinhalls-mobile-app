@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:coin_hall/core/env.dart';
-import 'package:web3dart/web3dart.dart';
+import 'package:reown_appkit/reown_appkit.dart';
 
 class AppContractAbi {
   static DeployedContract get appContract {

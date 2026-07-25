@@ -92,9 +92,9 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
 
       final rawAddress = event.event.session.getAddress(namespace)!;
 
-      final EthereumAddress(:hexEip55) = EthereumAddress.fromHex(rawAddress);
+      final EthereumAddress(:eip55With0x) = EthereumAddress.fromHex(rawAddress);
       if (state.manualAddress != null &&
-          hexEip55 != EthereumAddress.fromHex(state.manualAddress!).hexEip55) {
+          eip55With0x != EthereumAddress.fromHex(state.manualAddress!).eip55With0x) {
         emit(state.copyWith(
           status: AppReownLoadingStatus.none,
           address: () => null,
@@ -115,10 +115,10 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
       }
 
       if (state.manualAddress != null &&
-          hexEip55 == EthereumAddress.fromHex(state.manualAddress!).hexEip55) {
+          eip55With0x == EthereumAddress.fromHex(state.manualAddress!).eip55With0x) {
         emit(state.copyWith(
           manualAddress: () => null,
-          address: () => EthereumAddress.fromHex(state.manualAddress!).hexEip55,
+          address: () => EthereumAddress.fromHex(state.manualAddress!).eip55With0x,
         ));
       }
 
@@ -126,7 +126,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
         status: AppReownLoadingStatus.getNonce,
       ));
 
-      final nonce = await _authService.getNonce(hexEip55);
+      final nonce = await _authService.getNonce(eip55With0x);
 
       emit(state.copyWith(
         status: AppReownLoadingStatus.none,
@@ -152,7 +152,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
 
       emit(state.copyWith(
         nonce: () => nonce,
-        address: () => hexEip55,
+        address: () => eip55With0x,
       ));
 
       emit(state.copyWith(
@@ -165,7 +165,7 @@ class ReownBloc extends Bloc<ReownEvent, ReownState> {
           chainId: chainId,
           request: SessionRequestParams(
             method: 'personal_sign',
-            params: [nonce.message, hexEip55],
+            params: [nonce.message, eip55With0x],
           ),
         ),
         const Duration(seconds: 30),
