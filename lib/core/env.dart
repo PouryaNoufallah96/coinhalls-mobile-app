@@ -78,7 +78,7 @@ sealed class _Env {
 class _StageEnv extends _Env {
   _StageEnv()
       : super(
-          reownProjectId: '90e40102e61f0ebc907a7f14bcc82465',
+          reownProjectId: '4ee4cb238a3caa0a5a21e69a7f2b71b3',
           apiEndPoint: 'https://api.coinhalls.com/api/v1/',
           clientId: 'app_mainappful',
           clientSecret: 'vxzldacqgvazzxqgwibo',
